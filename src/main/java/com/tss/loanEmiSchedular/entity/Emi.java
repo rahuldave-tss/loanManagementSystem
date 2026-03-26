@@ -26,7 +26,7 @@ public class Emi extends BaseEntity{
     private BigDecimal penaltyAmount;
     private BigDecimal totalPaidAmount;
 
-    private Boolean isFullyPaid=false;
+    private boolean isFullyPaid;
 
     private LocalDate dueDate;
 

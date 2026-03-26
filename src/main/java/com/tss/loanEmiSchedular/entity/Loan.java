@@ -35,5 +35,5 @@ public class Loan extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private LoanStatus status;
 
-    private Boolean isDeleted=false;
+    private boolean isDeleted;
 }

@@ -27,7 +27,7 @@ public class User extends BaseEntity{
     @OneToOne(mappedBy = "user")
     private BorrowerProfile borrowerProfile;
 
-    private Boolean isActive=true;
+    private boolean isActive=true;
     private LocalDateTime lastLogin;
-    private Boolean isKycVerified=false;
+    private boolean isKycVerified;
 }
