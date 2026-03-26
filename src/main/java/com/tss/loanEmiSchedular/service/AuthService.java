@@ -6,6 +6,8 @@ import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.Role;
+import com.tss.loanEmiSchedular.exception.UserAlreadyExistsException;
+import com.tss.loanEmiSchedular.exception.UserNotFoundException;
 import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,9 +32,8 @@ public class AuthService {
     {
         userRepository.findByEmail(dto.getEmail())
                 .ifPresent(u -> {
-                    throw new RuntimeException("User already exists");
-                });
-
+                    throw new UserAlreadyExistsException("User already exists");                });
+        System.out.println("thoring err");
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -47,7 +48,7 @@ public class AuthService {
     //signin
     public AuthResponseDTO signIn(SigninRequestDTO dto) {
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
