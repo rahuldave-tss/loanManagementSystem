@@ -11,13 +11,13 @@ import lombok.Setter;
 @Setter
 public class BorrowerProfile extends BaseEntity{
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = false,unique = true)
     private User user;
     @Column(unique = true,nullable = false)
     private String pan;
     @Column(unique = true)
-    private String aadhar;
+    private String aadhaar;
 
     @OneToOne(mappedBy = "borrower",cascade = CascadeType.ALL)
     private Address address;

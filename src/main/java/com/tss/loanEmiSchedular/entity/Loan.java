@@ -18,6 +18,7 @@ public class Loan extends BaseEntity{
 
     private Double loanAmount;
     private Integer tenure;
+    private Double interestRate;
 
     //snapshot from financialProfile
     private Double monthlyIncome;
