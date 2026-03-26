@@ -29,4 +29,5 @@ public class User extends BaseEntity{
 
     private Boolean isActive=true;
     private LocalDateTime lastLogin;
+    private Boolean isKycVerified=false;
 }

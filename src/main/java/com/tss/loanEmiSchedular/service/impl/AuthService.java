@@ -1,6 +1,5 @@
-package com.tss.loanEmiSchedular.service;
+package com.tss.loanEmiSchedular.service.impl;
 
-import com.tss.loanEmiSchedular.config.SecurityConfig;
 import com.tss.loanEmiSchedular.dto.request.SigninRequestDTO;
 import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
@@ -12,8 +11,6 @@ import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -33,7 +30,7 @@ public class AuthService {
         userRepository.findByEmail(dto.getEmail())
                 .ifPresent(u -> {
                     throw new UserAlreadyExistsException("User already exists");                });
-        System.out.println("thoring err");
+//        System.out.println("thoring err");
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
