@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "payments")
 @Getter
@@ -15,7 +17,7 @@ public class Payment extends BaseEntity{
     @JoinColumn(name = "emi_id",nullable = false)
     private Emi emi;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private PaymentStatus paymentStatus;
 

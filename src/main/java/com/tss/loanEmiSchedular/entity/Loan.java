@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "loans")
 @Getter
@@ -16,14 +18,14 @@ public class Loan extends BaseEntity{
     @JoinColumn(name = "borrower_id",nullable = false)
     private BorrowerProfile borrower;
 
-    private Double loanAmount;
+    private BigDecimal loanAmount;
     private Integer tenure;
-    private Double interestRate;
+    private BigDecimal interestRate;
 
     //snapshot from financialProfile
-    private Double monthlyIncome;
-    private Double existingDebt;
-    private Double dti;
+    private BigDecimal monthlyIncome;
+    private BigDecimal existingDebt;
+    private BigDecimal dti;
     private Integer creditScore;
 
     @Enumerated(EnumType.STRING)

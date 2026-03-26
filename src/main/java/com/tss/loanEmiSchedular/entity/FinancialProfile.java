@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "financial_profiles")
 @Getter
@@ -15,9 +17,9 @@ public class FinancialProfile {
     @Id
     private String pan;
 
-    private Double monthlyIncome;
+    private BigDecimal monthlyIncome;
 
-    private Double existingDebt;
+    private BigDecimal existingDebt;
 
     private Integer creditScore;
 }
