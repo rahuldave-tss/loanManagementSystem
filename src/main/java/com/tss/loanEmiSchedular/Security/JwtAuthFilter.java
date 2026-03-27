@@ -27,13 +27,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null) {
             filterChain.doFilter(request, response); // next()
             return;
         }
+        String token;
 
-        String token = header.substring(7);
-
+        if (header.startsWith("Bearer ")) {
+            token = header.substring(7);
+        } else {
+            token = header; // accept raw token
+        }
         String email = jwtUtil.extractEmail(token);
 
         // attach user
