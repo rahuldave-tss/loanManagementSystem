@@ -8,16 +8,17 @@ import com.tss.loanEmiSchedular.enums.Role;
 import com.tss.loanEmiSchedular.exception.UserAlreadyExistsException;
 import com.tss.loanEmiSchedular.exception.UserNotFoundException;
 import com.tss.loanEmiSchedular.repository.UserRepository;
+import com.tss.loanEmiSchedular.service.AuthService;
 import com.tss.loanEmiSchedular.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    public AuthService(UserRepository userRepository,PasswordEncoder passwordEncoder,JwtUtil jwtUtil)
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil)
     {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -25,6 +26,7 @@ public class AuthService {
     }
 
     //signup
+    @Override
     public String signUp(SignupRequestDTO dto)
     {
         userRepository.findByEmail(dto.getEmail())
@@ -43,6 +45,7 @@ public class AuthService {
     }
 
     //signin
+    @Override
     public AuthResponseDTO signIn(SigninRequestDTO dto) {
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));

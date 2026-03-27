@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "financial_profiles")
@@ -16,7 +17,8 @@ public class FinancialProfile {
 
     @Id
     private String pan;
-
+    private String name;
+    private LocalDate dob;
     private BigDecimal monthlyIncome;
 
     private BigDecimal existingDebt;

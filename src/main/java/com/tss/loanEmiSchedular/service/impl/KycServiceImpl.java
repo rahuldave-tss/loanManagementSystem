@@ -16,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Data
@@ -42,8 +40,9 @@ public class KycServiceImpl implements KycService {
             throw new RuntimeException("KYC already completed");
         }
 
-        FinancialProfile fp= financialProfileRepository.findById(hashedPan)
-                .orElseThrow(()->new RuntimeException("Invalid PAN"));
+        FinancialProfile fp = financialProfileRepository
+                .findByPanAndNameAndDob(hashedPan, kycRequestDto.getName(), kycRequestDto.getDob())
+                .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
 
         BorrowerProfile borrowerProfile=new BorrowerProfile();
         borrowerProfile.setPan(hashedPan);
