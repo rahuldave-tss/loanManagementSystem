@@ -4,6 +4,7 @@ import com.tss.loanEmiSchedular.dto.request.SigninRequestDTO;
 import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
 import com.tss.loanEmiSchedular.service.impl.AuthServiceImpl;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequestDTO dto) {
+    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.signUp(dto));
     }
 
