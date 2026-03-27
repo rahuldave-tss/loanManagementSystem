@@ -24,6 +24,7 @@ public class Emi extends BaseEntity{
     private BigDecimal interest;
 
     private BigDecimal penaltyAmount;
+    private BigDecimal remainingAmount;
     private BigDecimal totalPaidAmount;
 
     private boolean isFullyPaid;
