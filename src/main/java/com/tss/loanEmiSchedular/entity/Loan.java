@@ -28,7 +28,7 @@ public class Loan extends BaseEntity{
 
     //snapshot from financialProfile
     private BigDecimal monthlyIncome;
-    private BigDecimal remainingBalance;
+    private BigDecimal setExistingDebt;
     private BigDecimal dti;
     private Integer creditScore;
 
