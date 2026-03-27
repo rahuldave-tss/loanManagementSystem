@@ -32,9 +32,12 @@ public class OfficerServiceImpl implements OfficerService {
         Loan loan=loanRepository.findById(loanId)
                 .orElseThrow(()->new RuntimeException("Loan not found"));
 
+        System.out.println(loan);
         if(loan.getStatus()!=LoanStatus.PENDING){
             throw new RuntimeException("Loan already processed");
         }
+
+        System.out.println(loan.getStatus());
 
         if(loanDecisionRequestDto.getDecision()==LoanStatus.REJECTED){
             loan.setStatus(LoanStatus.REJECTED);
@@ -42,7 +45,9 @@ public class OfficerServiceImpl implements OfficerService {
             return "Loan Rejected";
         }
 
-        if(loanDecisionRequestDto.getDecision()==LoanStatus.ACTIVE){
+        System.out.println("loan not rejected");
+
+        if(loanDecisionRequestDto.getDecision()==LoanStatus.APPROVED){
 
             LoanStrategyType finalStrategy=
                     loanDecisionRequestDto.getOverrideStrategy()!=null
@@ -53,6 +58,8 @@ public class OfficerServiceImpl implements OfficerService {
             loan.setStatus(LoanStatus.ACTIVE);
 
             loanRepository.save(loan);
+
+            System.out.println("loan saved");
 
             emiService.generateSchedule(loan);
 

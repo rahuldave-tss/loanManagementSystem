@@ -14,8 +14,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmiServiceImpl implements EmiService {
-    private EmiStrategyFactory emiStrategyFactory;
-    private EmiRepository emiRepository;
+    private final EmiStrategyFactory emiStrategyFactory;
+    private final EmiRepository emiRepository;
 
     @Override
     public void generateSchedule(Loan loan) {
