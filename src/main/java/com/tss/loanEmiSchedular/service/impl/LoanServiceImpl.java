@@ -77,7 +77,7 @@ public class LoanServiceImpl implements LoanService {
 
         // snapshot values
         loan.setMonthlyIncome(profile.getMonthlyIncome());
-//        loan.setExistingDebt(existingDebt);
+        loan.setExistingDebt(existingDebt);
         loan.setDti(dti);
 
         loan.setSuggestedStrategy(strategyType);
