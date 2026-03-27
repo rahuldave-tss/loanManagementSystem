@@ -8,57 +8,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler({
-            UserAlreadyExistsException.class,
-            UserNotFoundException.class,
-            InvalidPasswordException.class,
-            Exception.class
-    })
-    public ResponseEntity<ErrorResponse> handleAuthExceptions(
-            RuntimeException ex,
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), request.getRequestURI());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(
+            UserAlreadyExistsException ex,
             HttpServletRequest request) {
-
-        HttpStatus status;
-
-        if (ex instanceof UserAlreadyExistsException) {
-            status = HttpStatus.CONFLICT;
-        } else if (ex instanceof UserNotFoundException) {
-            status = HttpStatus.NOT_FOUND;
-        } else if(ex instanceof  InvalidPasswordException){
-            status = HttpStatus.UNAUTHORIZED;
-        }
-        else {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
 
         ErrorResponse error = new ErrorResponse(
                 ex.getMessage(),
-                status.value(),
+                HttpStatus.CONFLICT.value(),
                 request.getRequestURI()
         );
 
-        return new ResponseEntity<>(error, status);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
-//    @ExceptionHandler(UserNotFoundException.class)
-//    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex, HttpServletRequest request) {
-//        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), request.getRequestURI());
-//
-//        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-//    }
-//    @ExceptionHandler(UserAlreadyExistsException.class)
-//    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(
-//            UserAlreadyExistsException ex,
-//            HttpServletRequest request) {
-//
-//        ErrorResponse error = new ErrorResponse(
-//                ex.getMessage(),
-//                HttpStatus.CONFLICT.value(),
-//                request.getRequestURI()
-//        );
-//
-//        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-//    }
-//
+
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
 //        ex.printStackTrace();
