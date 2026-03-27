@@ -11,6 +11,6 @@ public class HighRiskStrategy implements LoanStrategy {
 
     @Override
     public LoanStrategyType decide(BigDecimal dti, int tenure) {
-        throw new RuntimeException("Loan Rejected ❌ High DTI");
+        throw new RuntimeException("Loan Rejected !! High DTI");
     }
 }

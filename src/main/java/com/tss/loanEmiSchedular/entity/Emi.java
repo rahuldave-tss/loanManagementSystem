@@ -2,8 +2,7 @@ package com.tss.loanEmiSchedular.entity;
 
 import com.tss.loanEmiSchedular.enums.EmiStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,6 +11,9 @@ import java.time.LocalDate;
 @Table(name = "emis")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Emi extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)

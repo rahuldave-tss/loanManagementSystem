@@ -1,9 +1,13 @@
 package com.tss.loanEmiSchedular.util;
 
 import com.tss.loanEmiSchedular.entity.FinancialProfile;
+import com.tss.loanEmiSchedular.entity.User;
+import com.tss.loanEmiSchedular.enums.Role;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
+import com.tss.loanEmiSchedular.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,6 +18,8 @@ import java.time.LocalDate;
 public class DataLoader implements CommandLineRunner {
 
     private final FinancialProfileRepository repo;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -37,6 +43,8 @@ public class DataLoader implements CommandLineRunner {
         saveIfNotExists("POIUY7788J", "Rohit Agarwal", LocalDate.of(1996, 4, 5), BigDecimal.valueOf(30000), BigDecimal.valueOf(5000), 650);
 
         saveIfNotExists("LKJHG9900P", "Pooja Nair", LocalDate.of(1994, 12, 21), BigDecimal.valueOf(65000), BigDecimal.valueOf(18000), 730);
+
+        saveOfficerIfNotExists("officer@gmail.com","1234");
     }
 
     private void saveIfNotExists(String pan, String name, LocalDate date, BigDecimal income, BigDecimal debt, int score) {
@@ -51,6 +59,20 @@ public class DataLoader implements CommandLineRunner {
         fp.setExistingDebt(debt);
         fp.setCreditScore(score);
         repo.save(fp);
+
+    }
+
+    private void saveOfficerIfNotExists(String email, String password){
+        if(userRepository.existsByEmail(email)){
+            return;
+        }
+
+        User user=new User();
+        user.setRole(Role.LOAN_OFFICER);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+
+        userRepository.save(user);
 
     }
 }

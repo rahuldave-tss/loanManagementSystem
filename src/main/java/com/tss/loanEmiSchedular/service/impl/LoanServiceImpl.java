@@ -34,7 +34,9 @@ public class LoanServiceImpl implements LoanService {
     public String applyLoan(LoanApplicationRequest request, String email) {
 
         // 🔹 1. Get Borrower
-        User user = userRepository.findByEmail(email).get();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("User not found"));
+
         System.out.println("user get");
         // 🔹 2. KYC Check
         if (!user.isKycVerified()) {
@@ -53,7 +55,8 @@ public class LoanServiceImpl implements LoanService {
         }
 
         System.out.println("loan is less than 3");
-        FinancialProfile profile = financialProfileRepository.findById(user.getBorrowerProfile().getPan()).get();
+        FinancialProfile profile = financialProfileRepository.findById(user.getBorrowerProfile().getPan())
+                .orElseThrow(()-> new RuntimeException("Financial Profile not found"));
 
         // 🔹 5. Calculate DTI
         BigDecimal monthlyIncome = profile.getMonthlyIncome();
@@ -71,6 +74,7 @@ public class LoanServiceImpl implements LoanService {
         Loan loan = new Loan();
 
         loan.setBorrower(user.getBorrowerProfile());
+        loan.setCreditScore(profile.getCreditScore());
         loan.setLoanAmount(request.getLoanAmount());
         loan.setTenure(request.getTenure());
         loan.setInterestRate(BigDecimal.valueOf(10.0)); // default
