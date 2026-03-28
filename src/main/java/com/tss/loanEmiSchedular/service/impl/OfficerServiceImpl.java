@@ -7,6 +7,7 @@ import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.LoanStrategyType;
 import com.tss.loanEmiSchedular.events.LoanDecisionEvent;
 import com.tss.loanEmiSchedular.mapper.LoanMapper;
+import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class OfficerServiceImpl implements OfficerService {
     private final EmiServiceImpl emiService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    private final FinancialProfileRepository financialProfileRepository;
 
     @Override
     public List<LoanSummaryResponseDto> viewPendingApplications() {
@@ -59,6 +61,10 @@ public class OfficerServiceImpl implements OfficerService {
 
             loan.setSelectedStrategy(finalStrategy);
             loan.setStatus(LoanStatus.ACTIVE);
+
+            loan.setReminingDebt(loan.getLoanAmount());
+            String pan = loan.getBorrower().getPan();
+            financialProfileRepository.findById(pan).ifPresent(f->f.setExistingDebt(f.getExistingDebt().add(loan.getLoanAmount())));
 
             loanRepository.save(loan);
 
