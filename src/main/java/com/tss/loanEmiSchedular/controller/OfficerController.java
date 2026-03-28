@@ -6,12 +6,14 @@ import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/officer")
+@PreAuthorize("hasRole('LOAN_OFFICER')")
 @RequiredArgsConstructor
 public class OfficerController {
 

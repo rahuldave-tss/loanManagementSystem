@@ -4,6 +4,7 @@ import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.enums.EmiStatus;
 import com.tss.loanEmiSchedular.events.EmiOverdueEvent;
+import com.tss.loanEmiSchedular.events.PaymentReminderEvent;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.EmiService;
 import com.tss.loanEmiSchedular.strategy.EmiStrategy;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -52,6 +54,16 @@ public class EmiServiceImpl implements EmiService {
         LocalDate today=LocalDate.now();
 
         for(Emi emi:emis){
+            long daysLeft = ChronoUnit.DAYS.between(today, emi.getDueDate());
+
+            if(!emi.isFullyPaid() &&
+                emi.getEmiStatus() == EmiStatus.PENDING &&
+                    daysLeft>=0 &&
+                    daysLeft<=3){
+
+                applicationEventPublisher.publishEvent(new PaymentReminderEvent(emi));
+                log.info("Pending Amount Reminder sent to : "+emi.getLoan().getBorrower().getUser().getEmail());
+            }
 
             if (!emi.isFullyPaid() &&
                     emi.getEmiStatus() == EmiStatus.PENDING &&
@@ -60,7 +72,6 @@ public class EmiServiceImpl implements EmiService {
                 count++;
 
                 emi.setEmiStatus(EmiStatus.OVERDUE);
-
 
 
                 //add penalty - 2% of remaining amount
