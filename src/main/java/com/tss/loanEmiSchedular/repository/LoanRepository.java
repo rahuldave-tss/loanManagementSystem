@@ -22,4 +22,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     WHERE l.status = :status
 """)
     List<Loan> findByStatusWithBorrower(LoanStatus status);
+
+    List<Loan> findByBorrowerUserEmailAndIsDeletedFalse(String email);
 }
