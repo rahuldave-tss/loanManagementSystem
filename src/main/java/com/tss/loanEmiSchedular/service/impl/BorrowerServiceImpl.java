@@ -27,8 +27,15 @@ public class BorrowerServiceImpl implements BorrowerService {
     // ── 1. All loans ─────────────────────────────────────────────────────────
     @Override
     public List<BorrowerLoanResponseDto> getMyLoans(String email) {
+
+        List<Loan> loans = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email);
+
+        if(loans.isEmpty())
+        {
+            throw new RuntimeException("No ACTIVE OR PENDING Loans Present");
+        }
         return borrowerMapper.toLoanDtoList(
-                loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email)
+                loans
         );
     }
 
