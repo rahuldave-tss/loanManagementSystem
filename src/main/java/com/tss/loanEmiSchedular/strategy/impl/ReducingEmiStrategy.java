@@ -58,6 +58,7 @@ public class ReducingEmiStrategy implements EmiStrategy {
                     .totalPaidAmount(BigDecimal.ZERO)
                     .isFullyPaid(false)
                     .emiStatus(EmiStatus.PENDING)
+                    .totalDueAmount(emiAmount)
                     .build();
 
             emis.add(emi);
