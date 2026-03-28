@@ -8,8 +8,10 @@ import com.tss.loanEmiSchedular.service.EmiService;
 import com.tss.loanEmiSchedular.strategy.EmiStrategy;
 import com.tss.loanEmiSchedular.strategy.EmiStrategyFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmiServiceImpl implements EmiService {
     private final EmiStrategyFactory emiStrategyFactory;
     private final EmiRepository emiRepository;
@@ -36,8 +39,12 @@ public class EmiServiceImpl implements EmiService {
 
     }
 
+    @Transactional
     @Override
     public void markOverdueEmis() {
+        log.info("EMI overdue schedular started");
+        int count=0;
+
         List<Emi> emis=emiRepository.findAllPendingEmis();
 
         LocalDate today=LocalDate.now();
@@ -47,6 +54,8 @@ public class EmiServiceImpl implements EmiService {
             if (!emi.isFullyPaid() &&
                     emi.getEmiStatus() == EmiStatus.PENDING &&
                     emi.getDueDate().isBefore(today)) {
+
+                count++;
 
                 emi.setEmiStatus(EmiStatus.OVERDUE);
 
@@ -66,5 +75,6 @@ public class EmiServiceImpl implements EmiService {
         }
 
         emiRepository.saveAll(emis);
+        log.info("Marked {} EMIs as overdue",count);
     }
 }

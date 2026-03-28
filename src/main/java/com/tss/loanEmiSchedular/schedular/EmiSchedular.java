@@ -12,6 +12,7 @@ public class EmiSchedular {
 
     //minute&second hour everyDay everyMonth anyDayOfTheWeek
     @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "*/30 * * * * ?")
     public void markOverdueEmis(){
         emiService.markOverdueEmis();
     }
