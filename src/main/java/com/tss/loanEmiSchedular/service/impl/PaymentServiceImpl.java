@@ -118,12 +118,14 @@ public class PaymentServiceImpl implements PaymentService {
         emi.setTotalPaidAmount(amount);
         emi.setRemainingAmount(BigDecimal.ZERO);
         emiRepository.save(emi);
-        emi.getLoan().setReminingDebt(emi.getLoan().getReminingDebt().subtract(emi.getTotalDueAmount()));
+
+        emi.getLoan().setReminingDebt(emi.getLoan().getReminingDebt().subtract(emi.getPrincipal()));
+        if (emi.getLoan().getReminingDebt().compareTo(BigDecimal.ZERO) == 0)
+            emi.getLoan().setStatus(LoanStatus.CLOSED);
 
         financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().subtract(emi.getTotalDueAmount())));
 
-        if(emi.getLoan().getReminingDebt().equals(BigDecimal.ZERO))
-            emi.getLoan().setStatus(LoanStatus.CLOSED);
+
 
         Payment payment = new Payment();
         payment.setEmi(emi);
