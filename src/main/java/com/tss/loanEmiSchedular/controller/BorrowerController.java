@@ -35,28 +35,28 @@ public class BorrowerController {
     // GET /borrower/loans
     @GetMapping("/loans")
     public ResponseEntity<List<BorrowerLoanResponseDto>> getMyLoans(Authentication authentication) {
-        return ResponseEntity.ok(borrowerService.getMyLoans(authentication.getName()));
+        return ResponseEntity.status(HttpStatus.OK).body(borrowerService.getMyLoans(authentication.getName()));
     }
 
     // GET /borrower/loans/{loanId}/emis
     @GetMapping("/loans/{loanId}/emis")
     public ResponseEntity<List<EmiResponseDto>> getEmis(@PathVariable Long loanId, Authentication authentication) {
-        return ResponseEntity.ok(borrowerService.getEmisForLoan(authentication.getName(), loanId));
+        return ResponseEntity.status(HttpStatus.OK).body(borrowerService.getEmisForLoan(authentication.getName(), loanId));
     }
 
     @PostMapping("/loans/{loanId}/emis/pay")
     public ResponseEntity<PaymentResponseDto> payEmi(@PathVariable Long loanId, Authentication authentication) {
-        return ResponseEntity.ok(paymentService.payEmi(authentication.getName(), loanId));
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.payEmi(authentication.getName(), loanId));
     }
 
     @GetMapping("/loans/emi/{emiId}/history")
     public ResponseEntity<List<PaymentHistoryResponseDto>> getHistoryByEmi(@PathVariable Long emiId, Authentication authentication) {
-        return ResponseEntity.ok(paymentService.getPaymentHistoryByEmi(authentication.getName(), emiId));
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.getPaymentHistoryByEmi(authentication.getName(), emiId));
     }
 
     @GetMapping("/loans/{loanId}/history")
     public ResponseEntity<List<PaymentHistoryResponseDto>> getHistory(@PathVariable Long loanId,Authentication authentication)
     {
-        return ResponseEntity.ok(paymentService.getPaymentHistory(authentication.getName(), loanId));
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.getPaymentHistory(authentication.getName(), loanId));
     }
 }

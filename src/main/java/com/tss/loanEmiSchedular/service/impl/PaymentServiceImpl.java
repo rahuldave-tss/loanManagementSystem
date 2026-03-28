@@ -38,7 +38,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentResponseDto payEmi(String email, Long loanId) {
 
-        // 1. verify loan exists and belongs to borrower
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
 
@@ -46,18 +45,16 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Access denied: this loan does not belong to you");
         }
 
-        // 2. find the next unpaid EMI automatically
         List<Emi> unpaid = emiRepository.findUnpaidEmisByLoanIdOrdered(loanId);
 
         if (unpaid.isEmpty()) {
             throw new RuntimeException("All EMIs are already paid for this loan");
         }
 
-        Emi emi = unpaid.get(0); // always picks the earliest unpaid one
+        Emi emi = unpaid.get(0);
 
         String txnId = "TXN-" + UUID.randomUUID().toString().toUpperCase().substring(0, 12);
 
-        // 3. gateway failed
         if (!simulateGateway()) {
             Payment failed = new Payment();
             failed.setEmi(emi);
@@ -71,7 +68,6 @@ public class PaymentServiceImpl implements PaymentService {
             return dto;
         }
 
-        // 4. pay it
         Payment payment = processPayment(emi, txnId);
         log.info("EMI #{} paid for loan {}. TxnId: {}", emi.getInstallmentNumber(), loanId, txnId);
 
@@ -80,7 +76,6 @@ public class PaymentServiceImpl implements PaymentService {
         return dto;
     }
 
-    // ── Payment history for an EMI ────────────────────────────────────────────
     @Override
     public List<PaymentHistoryResponseDto> getPaymentHistoryByEmi(String email, Long emiId) {
 
@@ -90,9 +85,13 @@ public class PaymentServiceImpl implements PaymentService {
         if (!emi.getLoan().getBorrower().getUser().getEmail().equals(email)) {
             throw new RuntimeException("Access denied: this EMI does not belong to you");
         }
+        List<Payment> payments = paymentRepository.findByEmiId(emiId);
+
+        if(payments.isEmpty())
+            throw new RuntimeException("No Payment History available");
 
         return borrowerMapper.toPaymentHistoryDtoList(
-                paymentRepository.findByEmiId(emiId)
+                payments
         );
     }
 
@@ -103,11 +102,16 @@ public class PaymentServiceImpl implements PaymentService {
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
             throw new RuntimeException("Access denied: this EMI does not belong to you");
         }
+        List<Payment> payments = paymentRepository.findByEmiLoanId(loanId);
+
+        if(payments.isEmpty())
+            throw new RuntimeException("No Payment History available");
+
         return borrowerMapper.toPaymentHistoryDtoList(
-                paymentRepository.findByEmiLoanId(loanId)
+                payments
         );
     }
-    // ── Private helpers ───────────────────────────────────────────────────────
+
     private Payment processPayment(Emi emi, String txnId) {
         BigDecimal amount = emi.getTotalDueAmount() != null
                 ? emi.getTotalDueAmount()
@@ -119,13 +123,15 @@ public class PaymentServiceImpl implements PaymentService {
         emi.setRemainingAmount(BigDecimal.ZERO);
         emiRepository.save(emi);
 
+        //update remaining debt
         emi.getLoan().setReminingDebt(emi.getLoan().getReminingDebt().subtract(emi.getPrincipal()));
+
+        //if remaining debt is zero then update loan status
         if (emi.getLoan().getReminingDebt().compareTo(BigDecimal.ZERO) == 0)
             emi.getLoan().setStatus(LoanStatus.CLOSED);
 
+        //update existing debt
         financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().subtract(emi.getTotalDueAmount())));
-
-
 
         Payment payment = new Payment();
         payment.setEmi(emi);
@@ -136,6 +142,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private boolean simulateGateway() {
-        return true; // replace with Razorpay/Stripe SDK call
+        return true;
     }
 }
