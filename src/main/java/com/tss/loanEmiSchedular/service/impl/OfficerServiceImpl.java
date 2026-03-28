@@ -5,10 +5,12 @@ import com.tss.loanEmiSchedular.dto.response.LoanSummaryResponseDto;
 import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.LoanStrategyType;
+import com.tss.loanEmiSchedular.events.LoanDecisionEvent;
 import com.tss.loanEmiSchedular.mapper.LoanMapper;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class OfficerServiceImpl implements OfficerService {
     private final LoanMapper loanMapper;
     private final LoanRepository loanRepository;
     private final EmiServiceImpl emiService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
 
     @Override
@@ -62,6 +65,9 @@ public class OfficerServiceImpl implements OfficerService {
             System.out.println("loan saved");
 
             emiService.generateSchedule(loan);
+
+            applicationEventPublisher.publishEvent(new LoanDecisionEvent(loan,loan.getBorrower().getUser().getEmail()));
+
 
             return "Loan Approved with Strategy: "+finalStrategy;
         }
