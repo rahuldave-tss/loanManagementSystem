@@ -3,6 +3,7 @@ package com.tss.loanEmiSchedular.service.impl;
 import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.enums.EmiStatus;
+import com.tss.loanEmiSchedular.events.EmiOverdueEvent;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.EmiService;
 import com.tss.loanEmiSchedular.strategy.EmiStrategy;
@@ -10,6 +11,7 @@ import com.tss.loanEmiSchedular.strategy.EmiStrategyFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +25,10 @@ import java.util.List;
 public class EmiServiceImpl implements EmiService {
     private final EmiStrategyFactory emiStrategyFactory;
     private final EmiRepository emiRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Value("${emi.penalty.rate}")
     private BigDecimal penaltyRate;
-
 
 
     @Override
@@ -59,6 +61,8 @@ public class EmiServiceImpl implements EmiService {
 
                 emi.setEmiStatus(EmiStatus.OVERDUE);
 
+
+
                 //add penalty - 2% of remaining amount
                 //then total due amount increases and borrower has to pay totalDueAmount
                 BigDecimal penalty=emi.getRemainingAmount()
@@ -71,6 +75,8 @@ public class EmiServiceImpl implements EmiService {
                         : emi.getRemainingAmount();
 
                 emi.setTotalDueAmount(currentDue.add(penalty));
+
+                applicationEventPublisher.publishEvent(new EmiOverdueEvent(emi));
             }
         }
 

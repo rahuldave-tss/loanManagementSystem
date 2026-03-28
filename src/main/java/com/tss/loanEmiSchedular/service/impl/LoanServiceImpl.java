@@ -7,6 +7,7 @@ import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.LoanStrategyType;
+import com.tss.loanEmiSchedular.events.LoanAppliedEvent;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
@@ -15,6 +16,7 @@ import com.tss.loanEmiSchedular.strategy.LoanStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategyFactory;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,6 +31,7 @@ public class LoanServiceImpl implements LoanService {
     private final UserRepository userRepository;
     private final LoanStrategyFactory strategyFactory;
     private final FinancialProfileRepository financialProfileRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public String applyLoan(LoanApplicationRequest request, String email) {
@@ -93,6 +96,8 @@ public class LoanServiceImpl implements LoanService {
 
         // 🔹 8. Save Loan
         loanRepository.save(loan);
+
+        applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email));
 
         return "Loan Applied Successfully Strategy: " + strategyType;
     }
