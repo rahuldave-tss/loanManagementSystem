@@ -11,6 +11,8 @@ import com.tss.loanEmiSchedular.repository.PaymentRepository;
 import com.tss.loanEmiSchedular.service.BorrowerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,19 +26,29 @@ public class BorrowerServiceImpl implements BorrowerService {
     private final PaymentRepository paymentRepository;
     private final BorrowerMapper borrowerMapper;
 
-    // ── 1. All loans ─────────────────────────────────────────────────────────
     @Override
-    public List<BorrowerLoanResponseDto> getMyLoans(String email) {
+    public List<BorrowerLoanResponseDto> getMyLoans(String email)
+    {
+        List<Loan> loan = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email);
 
-        List<Loan> loans = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email);
 
-        if(loans.isEmpty())
+        if(loan.isEmpty())
         {
             throw new RuntimeException("No ACTIVE OR PENDING Loans Present");
         }
-        return borrowerMapper.toLoanDtoList(
-                loans
-        );
+        return loan.stream().map(borrowerMapper::toLoanResponseDto).toList();
+    }
+    @Override
+    public Page<BorrowerLoanResponseDto> getMyLoansByPage(String email, Pageable pageable) {
+
+        Page<Loan> loanPage = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email,pageable);
+
+        if (pageable.getPageNumber() >= loanPage.getTotalPages()) {
+            throw new RuntimeException("Page number out of range");
+        }
+
+        return loanPage.map(borrowerMapper::toLoanResponseDto);
+
     }
 
     // ── 2. All EMIs for a loan ────────────────────────────────────────────────

@@ -82,7 +82,7 @@ public class LoanServiceImpl implements LoanService {
         loan.setCreditScore(profile.getCreditScore());
         loan.setLoanAmount(request.getLoanAmount());
         loan.setTenure(request.getTenure());
-        loan.setInterestRate(BigDecimal.valueOf(10.0)); // default
+        loan.setInterestRate(BigDecimal.valueOf(request.getLoanType().getInterestRate())); // default
 
         // snapshot values
         loan.setMonthlyIncome(profile.getMonthlyIncome());

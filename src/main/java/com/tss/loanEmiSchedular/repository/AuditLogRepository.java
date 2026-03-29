@@ -1,6 +1,8 @@
 package com.tss.loanEmiSchedular.repository;
 
 import com.tss.loanEmiSchedular.entity.AuditLog;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +17,11 @@ public interface AuditLogRepository extends JpaRepository<AuditLog,Long> {
     LEFT JOIN FETCH a.emi
     WHERE a.loan.id = :loanId
 """)
-    List<AuditLog> getAuditLogsOfLoan(@Param("loanId") Long loanId);
+    List<AuditLog> getAuditLogsOfLoan(@Param("loanId") Long loanId);@Query("""
+    SELECT a FROM AuditLog a
+    LEFT JOIN FETCH a.performedBy
+    LEFT JOIN FETCH a.emi
+    WHERE a.loan.id = :loanId
+""")
+    Page<AuditLog> getAuditLogsOfLoanPage(@Param("loanId") Long loanId, Pageable pageable);
 }

@@ -13,8 +13,9 @@ import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,17 @@ public class OfficerServiceImpl implements OfficerService {
             throw new RuntimeException("No Pending Application Present");
         }
         return loans.stream().map(loanMapper::toSummaryResponseDto).toList();
+    }
+
+    @Override
+    public Page<LoanSummaryResponseDto> viewPendingApplicationsByPage(Pageable pageable) {
+        Page<Loan> loanPage=loanRepository.findByStatusWithBorrowerByPage(LoanStatus.PENDING,pageable);
+
+        if (pageable.getPageNumber() >= loanPage.getTotalPages()) {
+            throw new RuntimeException("Page number out of range");
+        }
+        return loanPage.map(loanMapper::toSummaryResponseDto);
+
     }
 
     @Override

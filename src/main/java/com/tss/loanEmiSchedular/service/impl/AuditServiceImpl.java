@@ -12,6 +12,8 @@ import com.tss.loanEmiSchedular.mapper.AuditLogMapper;
 import com.tss.loanEmiSchedular.repository.AuditLogRepository;
 import com.tss.loanEmiSchedular.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,5 +60,17 @@ public class AuditServiceImpl implements AuditLogService {
         }
 
         return auditLogs.stream().map(auditLogMapper::toResponseDto).toList();
+    }
+
+    @Override
+    public Page<AuditLogResponseDto> viewAuditLogsOfLoanPage(Long loanId, Pageable pageable) {
+        Page<AuditLog> auditLogPage=auditLogRepository.getAuditLogsOfLoanPage(loanId,pageable);
+
+
+
+        if (pageable.getPageNumber() >= auditLogPage.getTotalPages()) {
+            throw new RuntimeException("Page number out of range");
+        }
+        return auditLogPage.map(auditLogMapper::toResponseDto);
     }
 }

@@ -7,6 +7,7 @@ import com.tss.loanEmiSchedular.events.*;
 import com.tss.loanEmiSchedular.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,7 @@ public class AuditEventListener {
 
     private final AuditLogService auditLogService;
 
+    @Async
     @EventListener
     public void handleLoanApplied(LoanAppliedEvent event){
         auditLogService.logLoanAction(
@@ -28,6 +30,7 @@ public class AuditEventListener {
         );
     }
 
+    @Async
     @EventListener
     public void handleLoanDecision(LoanDecisionEvent event){
 
@@ -47,6 +50,7 @@ public class AuditEventListener {
         );
     }
 
+    @Async
     @EventListener
     public void handleReminder(PaymentReminderEvent event){
         auditLogService.logEmiAction(
@@ -58,6 +62,7 @@ public class AuditEventListener {
         );
     }
 
+    @Async
     @EventListener
     public void handleOverdue(EmiOverdueEvent event){
         auditLogService.logEmiAction(
@@ -69,6 +74,7 @@ public class AuditEventListener {
         );
     }
 
+    @Async
     @EventListener
     public void handleEmiPaid(EmiPaidEvent event){
         auditLogService.logEmiAction(

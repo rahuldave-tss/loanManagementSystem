@@ -5,37 +5,60 @@ import com.tss.loanEmiSchedular.dto.response.BorrowerLoanResponseDto;
 import com.tss.loanEmiSchedular.dto.response.EmiResponseDto;
 import com.tss.loanEmiSchedular.dto.response.PaymentHistoryResponseDto;
 import com.tss.loanEmiSchedular.dto.response.PaymentResponseDto;
+import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.service.BorrowerService;
+import com.tss.loanEmiSchedular.service.KycService;
 import com.tss.loanEmiSchedular.service.PaymentService;
 import com.tss.loanEmiSchedular.service.impl.KycServiceImpl;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
+@Validated
 @PreAuthorize("hasRole('BORROWER')")
 @RequestMapping("/borrower")
 public class BorrowerController {
-    private final KycServiceImpl kycService;
+    private final KycService kycService;
     private final BorrowerService borrowerService; // add this alongside KycServiceImpl
     private final PaymentService paymentService;
 
     @PostMapping("/kyc")
-    public ResponseEntity<String> getBorrowerInfoForKyc(@RequestBody KycRequestDto kycRequestDto) {
+    public ResponseEntity<String> getBorrowerInfoForKyc(@Valid @RequestBody KycRequestDto kycRequestDto) {
         return new ResponseEntity<>(kycService.verifyKyc(kycRequestDto), HttpStatus.OK);
     }
 
-
-    // GET /borrower/loans
     @GetMapping("/loans")
-    public ResponseEntity<List<BorrowerLoanResponseDto>> getMyLoans(Authentication authentication) {
+    public ResponseEntity<List<BorrowerLoanResponseDto>> getAllLoans(Authentication authentication) {
+
+
         return ResponseEntity.status(HttpStatus.OK).body(borrowerService.getMyLoans(authentication.getName()));
+    }
+
+    @GetMapping("/loans/pages")
+    public ResponseEntity<Page<BorrowerLoanResponseDto>> getAllLoans(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "id") String sortBy,
+                                  @RequestParam(defaultValue = "asc") String direction, Authentication authentication) {
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.status(HttpStatus.OK).body(borrowerService.getMyLoansByPage(authentication.getName(),pageable));
     }
 
     // GET /borrower/loans/{loanId}/emis
@@ -55,8 +78,7 @@ public class BorrowerController {
     }
 
     @GetMapping("/loans/{loanId}/history")
-    public ResponseEntity<List<PaymentHistoryResponseDto>> getHistory(@PathVariable Long loanId,Authentication authentication)
-    {
+    public ResponseEntity<List<PaymentHistoryResponseDto>> getHistory(@PathVariable Long loanId, Authentication authentication) {
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.getPaymentHistory(authentication.getName(), loanId));
     }
 }

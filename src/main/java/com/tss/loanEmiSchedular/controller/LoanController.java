@@ -3,6 +3,7 @@ package com.tss.loanEmiSchedular.controller;
 import com.tss.loanEmiSchedular.dto.request.LoanApplicationRequest;
 import com.tss.loanEmiSchedular.service.LoanService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class LoanController {
 
     @PreAuthorize("hasRole('BORROWER')")
     @PostMapping("/apply")
-    public ResponseEntity<String> applyLoan(@RequestBody LoanApplicationRequest request, Authentication authentication) {
+    public ResponseEntity<String> applyLoan(@Valid @RequestBody LoanApplicationRequest request, Authentication authentication) {
 
         String email = authentication.getName();
 

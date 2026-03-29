@@ -7,6 +7,8 @@ import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.ActorType;
 import com.tss.loanEmiSchedular.enums.AuditAction;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,4 +20,5 @@ public interface AuditLogService {
                       AuditAction auditAction, String remarks);
 
     List<AuditLogResponseDto> viewAuditLogsOfLoan(Long loanId);
+    Page<AuditLogResponseDto> viewAuditLogsOfLoanPage(Long loanId, Pageable pageable);
 }

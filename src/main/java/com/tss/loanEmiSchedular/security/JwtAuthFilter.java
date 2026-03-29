@@ -1,4 +1,4 @@
-package com.tss.loanEmiSchedular.Security;
+package com.tss.loanEmiSchedular.security;
 
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.repository.UserRepository;
@@ -48,8 +48,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             List<GrantedAuthority> authorities = List.of(
-                    new SimpleGrantedAuthority(user.getRole().name())
-            );
+                    new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(email, null, authorities)
             );
