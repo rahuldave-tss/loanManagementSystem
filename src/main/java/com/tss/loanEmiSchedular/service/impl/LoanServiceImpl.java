@@ -36,24 +36,23 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public String applyLoan(LoanApplicationRequest request, String email) {
 
-        // 🔹 1. Get Borrower
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new RuntimeException("User not found"));
 
         System.out.println("user get");
-        // 🔹 2. KYC Check
+
         if (!user.isKycVerified()) {
             throw new RuntimeException("Complete KYC first ");
         }
         System.out.println("kyc done");
-        // 🔹 3. Get ACTIVE Loans
-        List<Loan> activeLoans = loanRepository
-                .findByBorrowerAndStatus(user.getBorrowerProfile(), LoanStatus.ACTIVE);
 
-        List<Loan> pendingLoans = loanRepository
-                .findByBorrowerAndStatus(user.getBorrowerProfile(), LoanStatus.PENDING);
+        Integer activeLoans = loanRepository
+                .findByBorrowerAndStatus(user.getBorrowerProfile(), LoanStatus.ACTIVE).size();
 
-        if (activeLoans.size()+pendingLoans.size() >= 3) {
+        Integer pendingLoans = loanRepository
+                .findByBorrowerAndStatus(user.getBorrowerProfile(), LoanStatus.PENDING).size();
+
+        if (activeLoans+pendingLoans >= 3) {
             throw new RuntimeException("Maximum 3 active and pending loans allowed");
         }
 
@@ -61,19 +60,18 @@ public class LoanServiceImpl implements LoanService {
         FinancialProfile profile = financialProfileRepository.findById(user.getBorrowerProfile().getPan())
                 .orElseThrow(()-> new RuntimeException("Financial Profile not found"));
 
-        // 🔹 5. Calculate DTI
         BigDecimal monthlyIncome = profile.getMonthlyIncome();
         BigDecimal existingDebt = profile.getExistingDebt();
         BigDecimal dti = (existingDebt.divide(monthlyIncome,2, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
         System.out.println("Dti done");
-        // 🔹 6. Get Strategy using Factory
+
         LoanStrategy strategy = strategyFactory.getStrategy(dti);
 
         LoanStrategyType strategyType =
                 strategy.decide(dti, request.getTenure());
 
         System.out.println(strategyType);
-        // 🔹 7. Create Loan Object
+
         Loan loan = new Loan();
 
         loan.setBorrower(user.getBorrowerProfile());
@@ -94,7 +92,6 @@ public class LoanServiceImpl implements LoanService {
         loan.setStatus(LoanStatus.PENDING);
         loan.setDeleted(false);
 
-        // 🔹 8. Save Loan
         loanRepository.save(loan);
 
         applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email));
@@ -103,7 +100,6 @@ public class LoanServiceImpl implements LoanService {
     }
 
 
-    // 🔥 EMI Calculation Utility
     private double calculateEmi(double amount, double annualRate, int tenure) {
 
         double monthlyRate = annualRate / 12 / 100;

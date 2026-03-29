@@ -17,25 +17,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), request.getRequestURI());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(
-            UserAlreadyExistsException ex,
-            HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
-                HttpStatus.CONFLICT.value(),
-                request.getRequestURI()
-        );
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex, HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.CONFLICT.value(), request.getRequestURI());
 
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidation(MethodArgumentNotValidException ex) {
 

@@ -18,8 +18,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil)
-    {
+
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
@@ -27,12 +27,13 @@ public class AuthServiceImpl implements AuthService {
 
     //signup
     @Override
-    public String signUp(SignupRequestDTO dto)
-    {
+    public String signUp(SignupRequestDTO dto) {
+
         userRepository.findByEmail(dto.getEmail())
                 .ifPresent(u -> {
-                    throw new UserAlreadyExistsException("User already exists");                });
-//        System.out.println("thoring err");
+                    throw new UserAlreadyExistsException("User already exists");
+                });
+
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -40,8 +41,6 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
         return "User registered successfully";
-
-
     }
 
     //signin

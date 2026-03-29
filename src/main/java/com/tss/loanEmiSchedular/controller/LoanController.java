@@ -4,6 +4,8 @@ import com.tss.loanEmiSchedular.dto.request.LoanApplicationRequest;
 import com.tss.loanEmiSchedular.service.LoanService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +20,11 @@ public class LoanController {
 
     @PreAuthorize("hasRole('BORROWER')")
     @PostMapping("/apply")
-    public String applyLoan(@RequestBody LoanApplicationRequest request, Authentication authentication) {
+    public ResponseEntity<String> applyLoan(@RequestBody LoanApplicationRequest request, Authentication authentication) {
 
         String email = authentication.getName();
 
-        return loanService.applyLoan(request, email);
+        return ResponseEntity.status(HttpStatus.OK).body(loanService.applyLoan(request, email));
     }
 
 }

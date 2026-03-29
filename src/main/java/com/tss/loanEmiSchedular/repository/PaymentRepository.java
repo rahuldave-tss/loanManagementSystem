@@ -14,4 +14,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     // all successful payments for a specific EMI
     List<Payment> findByEmiIdAndPaymentStatus(Long emiId, PaymentStatus status);
 
-    List<Payment> findByEmiLoanId(Long loanId);}
+    List<Payment> findByEmiLoanId(Long loanId);
+}

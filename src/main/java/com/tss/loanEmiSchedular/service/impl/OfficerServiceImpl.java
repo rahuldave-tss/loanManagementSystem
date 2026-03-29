@@ -29,6 +29,11 @@ public class OfficerServiceImpl implements OfficerService {
     @Override
     public List<LoanSummaryResponseDto> viewPendingApplications() {
         List<Loan> loans=loanRepository.findByStatusWithBorrower(LoanStatus.PENDING);
+
+        if(loans.isEmpty())
+        {
+            throw new RuntimeException("No Pending Application Present");
+        }
         return loans.stream().map(loanMapper::toSummaryResponseDto).toList();
     }
 
