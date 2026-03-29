@@ -16,6 +16,7 @@ import com.tss.loanEmiSchedular.strategy.LoanStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategyFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoanServiceImpl implements LoanService {
 
     private final LoanRepository loanRepository;
@@ -35,6 +37,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public String applyLoan(LoanApplicationRequest request, String email) {
+        log.info("Applying loan for user: {}",email);
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new RuntimeException("User not found"));
@@ -42,6 +45,7 @@ public class LoanServiceImpl implements LoanService {
         System.out.println("user get");
 
         if (!user.isKycVerified()) {
+            log.error("Error while applying loan, KYC not done");
             throw new RuntimeException("Complete KYC first ");
         }
         System.out.println("kyc done");
@@ -84,6 +88,7 @@ public class LoanServiceImpl implements LoanService {
         loan.setMonthlyIncome(profile.getMonthlyIncome());
         loan.setExistingDebt(existingDebt);
         loan.setDti(dti);
+        loan.setReminingDebt(request.getLoanAmount());
 
         loan.setSuggestedStrategy(strategyType);
         loan.setSelectedStrategy(null);
@@ -94,7 +99,9 @@ public class LoanServiceImpl implements LoanService {
 
         loanRepository.save(loan);
 
-        applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email));
+        log.info("Loan applied of user: {}",email);
+
+        applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email,user));
 
         return "Loan Applied Successfully Strategy: " + strategyType;
     }

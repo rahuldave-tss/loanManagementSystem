@@ -1,7 +1,9 @@
 package com.tss.loanEmiSchedular.controller;
 
 import com.tss.loanEmiSchedular.dto.request.LoanDecisionRequestDto;
+import com.tss.loanEmiSchedular.dto.response.AuditLogResponseDto;
 import com.tss.loanEmiSchedular.dto.response.LoanSummaryResponseDto;
+import com.tss.loanEmiSchedular.service.AuditLogService;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.List;
 public class OfficerController {
 
     private final OfficerService officerService;
+    private final AuditLogService auditLogService;
 
     @GetMapping("/applications")
     public ResponseEntity<List<LoanSummaryResponseDto>> getLoanApplications(){
@@ -33,5 +36,11 @@ public class OfficerController {
     public ResponseEntity<LoanSummaryResponseDto> viewLoanDetails(@PathVariable Long loanId){
         return new ResponseEntity<>(officerService.viewLoan(loanId),HttpStatus.OK);
     }
+
+    @GetMapping("/loans/{loanId}/audit-logs")
+    public ResponseEntity<List<AuditLogResponseDto>> viewAuditLogsByLoan(@PathVariable Long loanId){
+        return new ResponseEntity<>(auditLogService.viewAuditLogsOfLoan(loanId),HttpStatus.OK);
+    }
+
 
 }

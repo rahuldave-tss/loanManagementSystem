@@ -21,7 +21,7 @@ public class AuditLog extends BaseEntity{
 
     //who performed
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "officer_id")
+    @JoinColumn(name = "performed_by")
     private User performedBy;
 
     //type of actor

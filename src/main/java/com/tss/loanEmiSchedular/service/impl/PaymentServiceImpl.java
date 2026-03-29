@@ -8,6 +8,7 @@ import com.tss.loanEmiSchedular.entity.Payment;
 import com.tss.loanEmiSchedular.enums.EmiStatus;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.PaymentStatus;
+import com.tss.loanEmiSchedular.events.EmiPaidEvent;
 import com.tss.loanEmiSchedular.mapper.BorrowerMapper;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
@@ -16,6 +17,7 @@ import com.tss.loanEmiSchedular.repository.PaymentRepository;
 import com.tss.loanEmiSchedular.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +31,11 @@ import java.util.UUID;
 public class PaymentServiceImpl implements PaymentService {
 
     private final LoanRepository loanRepository; // add this
-    private final EmiRepository     emiRepository;
+    private final EmiRepository emiRepository;
     private final PaymentRepository paymentRepository;
-    private final BorrowerMapper    borrowerMapper;
+    private final BorrowerMapper borrowerMapper;
     private final FinancialProfileRepository financialProfileRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
     @Override
@@ -73,6 +76,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         PaymentResponseDto dto = borrowerMapper.toPaymentDto(payment);
         dto.setMessage("EMI #" + emi.getInstallmentNumber() + " paid successfully.");
+
+        applicationEventPublisher.publishEvent(new EmiPaidEvent(emi,emi.getLoan().getBorrower().getUser()));
         return dto;
     }
 
