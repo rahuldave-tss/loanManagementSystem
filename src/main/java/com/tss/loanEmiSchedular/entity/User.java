@@ -30,4 +30,6 @@ public class User extends BaseEntity{
     private boolean isActive=true;
     private LocalDateTime lastLogin;
     private boolean isKycVerified = false;
+
+    private boolean isEmailVerified = false;
 }

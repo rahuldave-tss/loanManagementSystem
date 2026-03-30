@@ -11,4 +11,6 @@ public interface NotificationService {
     void sendPaymentReminder(String email, Emi emi);
 
     void sendOverdueAlert(String email, Emi emi);
+
+    void sendOTP(String email, String OTP);
 }
