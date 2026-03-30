@@ -48,9 +48,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            String path = request.getRequestURI();
+
             if(!user.isEmailVerified())
             {
-                String path = request.getRequestURI();
                 if(!path.startsWith("/auth/verify"))
                 {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -59,10 +60,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
 
             }
-            if(user.getRole().equals(Role.BORROWER) && !user.isKycVerified()){
 
-                String path=request.getRequestURI();
-                if(!path.startsWith("/borrower/kyc")){
+            if (path.startsWith("/borrower") &&
+                    user.getRole() == Role.BORROWER &&
+                    !user.isKycVerified()) {
+
+                if (!path.startsWith("/borrower/kyc")) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().write("KYC not completed! First Complete KYC");
                     return;
