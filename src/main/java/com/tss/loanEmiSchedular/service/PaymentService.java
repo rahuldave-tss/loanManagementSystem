@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface PaymentService {
 
-    @Transactional
     PaymentResponseDto payEmi(String email, Long loanId);
 
     // ── Payment history for an EMI ────────────────────────────────────────────

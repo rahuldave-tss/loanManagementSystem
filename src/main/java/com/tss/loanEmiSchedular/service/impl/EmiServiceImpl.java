@@ -97,7 +97,7 @@ public class EmiServiceImpl implements EmiService {
 
     @Override
     public BigDecimal calculateBaseEmi(Loan loan) {
-        EmiStrategy strategy= emiStrategyFactory.getStrategy(loan.getSelectedStrategy());
+        EmiStrategy strategy= emiStrategyFactory.getStrategy(loan.getSuggestedStrategy());
 
         return strategy.calculateEmi(loan);
     }

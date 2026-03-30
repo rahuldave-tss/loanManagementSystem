@@ -44,6 +44,10 @@ public class PaymentServiceImpl implements PaymentService {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
 
+        if(loan.getStatus()!=LoanStatus.ACTIVE){
+            throw new RuntimeException("You can only pay EMIs of ACTIVE loan");
+        }
+
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
             throw new RuntimeException("Access denied: this loan does not belong to you");
         }
@@ -51,7 +55,13 @@ public class PaymentServiceImpl implements PaymentService {
         List<Emi> unpaid = emiRepository.findUnpaidEmisByLoanIdOrdered(loanId);
 
         if (unpaid.isEmpty()) {
-            throw new RuntimeException("All EMIs are already paid for this loan");
+            boolean emisExist=emiRepository.existsByLoanId(loanId);
+            if(!emisExist){
+                throw new RuntimeException("EMIs are not generated yet!");
+            }
+            else{
+                throw new RuntimeException("All EMIs are already paid for this loan");
+            }
         }
 
         Emi emi = unpaid.get(0);
