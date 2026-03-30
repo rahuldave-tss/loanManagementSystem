@@ -151,7 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (emi.getLoan().getReminingDebt().compareTo(BigDecimal.ZERO) == 0)
             emi.getLoan().setStatus(LoanStatus.CLOSED);
 
-        //update existing debt
+        //update existing debt in financialprofile
         financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().subtract(emi.getTotalDueAmount())));
 
         if(nextEmi!=null){

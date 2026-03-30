@@ -6,35 +6,18 @@ import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(
-            RuntimeException ex,
-            HttpServletRequest request) {
-
-        ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
-                HttpStatus.BAD_REQUEST.value(),
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(
             UserNotFoundException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
-                HttpStatus.NOT_FOUND.value(),
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
@@ -42,34 +25,29 @@ public class GlobalExceptionHandler {
             UserAlreadyExistsException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
-                HttpStatus.CONFLICT.value(),
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+        return buildResponse(ex.getMessage(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(
+    public ResponseEntity<Map<String, Object>> handleValidation(
             MethodArgumentNotValidException ex,
             HttpServletRequest request) {
 
-        String message = ex.getBindingResult()
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult()
                 .getFieldErrors()
-                .stream()
-                .findFirst()
-                .map(error -> error.getField() + " : " + error.getDefaultMessage())
-                .orElse("Validation error");
+                .forEach(error ->
+                        errors.put(error.getField(), error.getDefaultMessage())
+                );
 
-        ErrorResponse error = new ErrorResponse(
-                message,
-                HttpStatus.BAD_REQUEST.value(),
-                request.getRequestURI()
-        );
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Validation failed");
+        response.put("status", 400);
+        response.put("path", request.getRequestURI());
+        response.put("errors", errors);
 
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -78,20 +56,15 @@ public class GlobalExceptionHandler {
             HttpServletRequest request) {
 
         String message = "Duplicate value";
+        String rootMsg = ex.getRootCause() != null ? ex.getRootCause().getMessage() : "";
 
-        if (ex.getMessage().contains("pan")) {
+        if (rootMsg.contains("pan")) {
             message = "PAN already exists";
-        } else if (ex.getMessage().contains("aadhaar")) {
+        } else if (rootMsg.contains("aadhaar")) {
             message = "Aadhaar already exists";
         }
 
-        ErrorResponse error = new ErrorResponse(
-                message,
-                HttpStatus.BAD_REQUEST.value(),
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return buildResponse(message, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(Exception.class)
@@ -99,13 +72,16 @@ public class GlobalExceptionHandler {
             Exception ex,
             HttpServletRequest request) {
 
+        return buildResponse("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    private ResponseEntity<ErrorResponse> buildResponse(String message, HttpStatus status, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
-                "Something went wrong",
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                message,
+                status.value(),
                 request.getRequestURI()
         );
-
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, status);
     }
 }
 //    @ExceptionHandler(Exception.class)

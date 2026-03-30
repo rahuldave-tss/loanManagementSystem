@@ -17,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class OfficerServiceImpl implements OfficerService {
 
     @Override
     public Page<LoanSummaryResponseDto> viewPendingApplicationsByPage(Pageable pageable) {
-        Page<Loan> loanPage=loanRepository.findByStatusWithBorrowerByPage(LoanStatus.PENDING,pageable);
+        Page<Loan> loanPage=loanRepository.findByStatus(LoanStatus.PENDING,pageable);
 
         if (pageable.getPageNumber() >= loanPage.getTotalPages()) {
             throw new RuntimeException("Page number out of range");

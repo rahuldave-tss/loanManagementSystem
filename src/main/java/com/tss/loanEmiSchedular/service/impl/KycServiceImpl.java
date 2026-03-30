@@ -32,6 +32,7 @@ public class KycServiceImpl implements KycService {
         String hashedPan= PanHashUtil.hashPan(normalizedPan);
 
 
+
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
