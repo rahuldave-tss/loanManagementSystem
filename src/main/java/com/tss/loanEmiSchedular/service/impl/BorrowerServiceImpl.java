@@ -4,6 +4,7 @@ import com.tss.loanEmiSchedular.dto.response.BorrowerLoanResponseDto;
 import com.tss.loanEmiSchedular.dto.response.EmiResponseDto;
 import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.entity.Loan;
+import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.mapper.BorrowerMapper;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

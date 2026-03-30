@@ -1,6 +1,7 @@
 package com.tss.loanEmiSchedular.security;
 
 import com.tss.loanEmiSchedular.entity.User;
+import com.tss.loanEmiSchedular.enums.Role;
 import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -58,6 +59,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
 
             }
+            if(user.getRole().equals(Role.BORROWER) && !user.isKycVerified()){
+
+                String path=request.getRequestURI();
+                if(!path.startsWith("/borrower/kyc")){
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().write("KYC not completed! First Complete KYC");
+                    return;
+                }
+            }
+
             List<GrantedAuthority> authorities = List.of(
                     new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 
