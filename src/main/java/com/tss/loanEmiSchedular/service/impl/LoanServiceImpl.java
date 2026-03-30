@@ -105,13 +105,4 @@ public class LoanServiceImpl implements LoanService {
 
         return "Loan Applied Successfully Strategy: " + strategyType;
     }
-
-
-    private double calculateEmi(double amount, double annualRate, int tenure) {
-
-        double monthlyRate = annualRate / 12 / 100;
-
-        return (amount * monthlyRate * Math.pow(1 + monthlyRate, tenure)) /
-                (Math.pow(1 + monthlyRate, tenure) - 1);
-    }
 }

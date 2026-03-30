@@ -10,7 +10,7 @@ import java.util.List;
 public interface OfficerService {
     List<LoanSummaryResponseDto> viewPendingApplications();
     Page<LoanSummaryResponseDto> viewPendingApplicationsByPage(Pageable pageable);
-    String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto);
+    String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto,String email);
     LoanSummaryResponseDto viewLoan(Long loanId);
 
 }

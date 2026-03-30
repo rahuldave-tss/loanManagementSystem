@@ -25,13 +25,13 @@ public class KycServiceImpl implements KycService {
     private final BorrowerRepository borrowerRepository;
 
     @Override
-    public String verifyKyc(KycRequestDto kycRequestDto) {
+    public String verifyKyc(KycRequestDto kycRequestDto,String email) {
 
         String normalizedPan=kycRequestDto.getPan().toUpperCase().trim();
 
         String hashedPan= PanHashUtil.hashPan(normalizedPan);
 
-        String email=getLoggedInEmail();
+
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -64,18 +64,5 @@ public class KycServiceImpl implements KycService {
 
         return "KYC successful";
 
-    }
-
-    private String getLoggedInEmail() {
-
-        Authentication authentication = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("User not authenticated");
-        }
-
-        return authentication.getName();
     }
 }

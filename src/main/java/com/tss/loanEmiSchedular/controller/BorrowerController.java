@@ -36,8 +36,8 @@ public class BorrowerController {
     private final PaymentService paymentService;
 
     @PostMapping("/kyc")
-    public ResponseEntity<String> getBorrowerInfoForKyc(@Valid @RequestBody KycRequestDto kycRequestDto) {
-        return new ResponseEntity<>(kycService.verifyKyc(kycRequestDto), HttpStatus.OK);
+    public ResponseEntity<String> getBorrowerInfoForKyc(@Valid @RequestBody KycRequestDto kycRequestDto,Authentication authentication) {
+        return new ResponseEntity<>(kycService.verifyKyc(kycRequestDto,authentication.getName()), HttpStatus.OK);
     }
 
     @GetMapping("/loans")
