@@ -94,4 +94,11 @@ public class EmiServiceImpl implements EmiService {
         emiRepository.saveAll(emis);
         log.info("Marked {} EMIs as overdue",count);
     }
+
+    @Override
+    public BigDecimal calculateBaseEmi(Loan loan) {
+        EmiStrategy strategy= emiStrategyFactory.getStrategy(loan.getSelectedStrategy());
+
+        return strategy.calculateEmi(loan);
+    }
 }

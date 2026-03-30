@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface FinancialProfileRepository extends JpaRepository<FinancialProfile, String> {
     Optional<FinancialProfile> findByPanAndNameAndDob(String pan, String name, LocalDate dob);
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,13 @@ public class StepUpEmiStrategy implements EmiStrategy {
         BigDecimal remainingPrincipal = principal;
 
         for (int i = 1; i <= tenure; i++) {
+            LocalDate startDate = loan.getCreatedAt().toLocalDate();
+            int emiDay = startDate.getDayOfMonth();
+
+            LocalDate dueDate = startDate.plusMonths(i);
+            int lastDay = dueDate.lengthOfMonth();
+
+            dueDate = dueDate.withDayOfMonth(Math.min(emiDay, lastDay));
 
             // Decide EMI amount
             BigDecimal emiAmount = (i <= stepPoint)
@@ -65,7 +73,7 @@ public class StepUpEmiStrategy implements EmiStrategy {
             Emi emi = Emi.builder()
                     .loan(loan)
                     .installmentNumber(i)
-                    .dueDate(loan.getCreatedAt().toLocalDate().plusMonths(i))
+                    .dueDate(dueDate)
                     .principal(principalPart)
                     .interest(interest)
                     .remainingAmount(emiAmount)
@@ -80,5 +88,24 @@ public class StepUpEmiStrategy implements EmiStrategy {
         }
 
         return emis;
+    }
+
+    @Override
+    public BigDecimal calculateEmi(Loan loan) {
+        BigDecimal principal = loan.getLoanAmount();
+        BigDecimal monthlyRate = loan.getInterestRate()
+                .divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
+
+        int tenure = loan.getTenure();
+
+        // Base EMI (normal reducing EMI)
+        double baseEmiDouble = (principal.doubleValue() * monthlyRate.doubleValue() *
+                Math.pow(1 + monthlyRate.doubleValue(), tenure)) /
+                (Math.pow(1 + monthlyRate.doubleValue(), tenure) - 1);
+
+        BigDecimal baseEmi = BigDecimal.valueOf(baseEmiDouble)
+                .setScale(2, RoundingMode.HALF_UP);
+
+        return baseEmi;
     }
 }

@@ -56,6 +56,12 @@ public class PaymentServiceImpl implements PaymentService {
 
         Emi emi = unpaid.get(0);
 
+        Emi nextEmi;
+        if(unpaid.size()==1){
+            nextEmi=null;
+        }
+        else nextEmi=unpaid.get(1);
+
         String txnId = "TXN-" + UUID.randomUUID().toString().toUpperCase().substring(0, 12);
 
         if (!simulateGateway()) {
@@ -71,7 +77,7 @@ public class PaymentServiceImpl implements PaymentService {
             return dto;
         }
 
-        Payment payment = processPayment(emi, txnId);
+        Payment payment = processPayment(emi,nextEmi, txnId);
         log.info("EMI #{} paid for loan {}. TxnId: {}", emi.getInstallmentNumber(), loanId, txnId);
 
         PaymentResponseDto dto = borrowerMapper.toPaymentDto(payment);
@@ -117,7 +123,7 @@ public class PaymentServiceImpl implements PaymentService {
         );
     }
 
-    private Payment processPayment(Emi emi, String txnId) {
+    private Payment processPayment(Emi emi,Emi nextEmi, String txnId) {
         BigDecimal amount = emi.getTotalDueAmount() != null
                 ? emi.getTotalDueAmount()
                 : emi.getRemainingAmount();
@@ -137,6 +143,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         //update existing debt
         financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().subtract(emi.getTotalDueAmount())));
+
+        if(nextEmi!=null){
+            financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().add(nextEmi.getTotalDueAmount())));
+        }
 
         Payment payment = new Payment();
         payment.setEmi(emi);
