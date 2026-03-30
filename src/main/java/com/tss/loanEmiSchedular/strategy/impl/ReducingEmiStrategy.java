@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,13 @@ public class ReducingEmiStrategy implements EmiStrategy {
         BigDecimal remainingPrincipal = principal;
 
         for (int i = 1; i <= tenure; i++) {
+            LocalDate startDate = loan.getCreatedAt().toLocalDate();
+            int emiDay = startDate.getDayOfMonth();
+
+            LocalDate dueDate = startDate.plusMonths(i);
+            int lastDay = dueDate.lengthOfMonth();
+
+            dueDate = dueDate.withDayOfMonth(Math.min(emiDay, lastDay));
 
             BigDecimal interest = remainingPrincipal.multiply(monthlyRate)
                     .setScale(2, RoundingMode.HALF_UP);
@@ -50,7 +58,7 @@ public class ReducingEmiStrategy implements EmiStrategy {
             Emi emi = Emi.builder()
                     .loan(loan)
                     .installmentNumber(i)
-                    .dueDate(loan.getCreatedAt().toLocalDate().plusMonths(i))
+                    .dueDate(dueDate)
                     .principal(principalPart)
                     .interest(interest)
                     .remainingAmount(emiAmount)
@@ -65,5 +73,23 @@ public class ReducingEmiStrategy implements EmiStrategy {
         }
 
         return emis;
+    }
+
+    @Override
+    public BigDecimal calculateEmi(Loan loan) {
+        BigDecimal principal=loan.getLoanAmount();
+        BigDecimal monthlyRate=loan.getInterestRate()
+                .divide(BigDecimal.valueOf(12*100),10, RoundingMode.HALF_UP);
+
+        int tenure= loan.getTenure();
+
+        double emiAmountDouble=(principal.doubleValue() * monthlyRate.doubleValue() *
+                Math.pow(1 + monthlyRate.doubleValue(), tenure)) /
+                (Math.pow(1 + monthlyRate.doubleValue(), tenure) - 1);
+
+        BigDecimal emiAmount = BigDecimal.valueOf(emiAmountDouble)
+                .setScale(2, RoundingMode.HALF_UP);
+
+        return emiAmount;
     }
 }

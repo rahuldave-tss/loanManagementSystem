@@ -44,6 +44,10 @@ public class PaymentServiceImpl implements PaymentService {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
 
+        if(loan.getStatus()!=LoanStatus.ACTIVE){
+            throw new RuntimeException("You can only pay EMIs of ACTIVE loan");
+        }
+
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
             throw new RuntimeException("Access denied: this loan does not belong to you");
         }
@@ -51,10 +55,22 @@ public class PaymentServiceImpl implements PaymentService {
         List<Emi> unpaid = emiRepository.findUnpaidEmisByLoanIdOrdered(loanId);
 
         if (unpaid.isEmpty()) {
-            throw new RuntimeException("All EMIs are already paid for this loan");
+            boolean emisExist=emiRepository.existsByLoanId(loanId);
+            if(!emisExist){
+                throw new RuntimeException("EMIs are not generated yet!");
+            }
+            else{
+                throw new RuntimeException("All EMIs are already paid for this loan");
+            }
         }
 
         Emi emi = unpaid.get(0);
+
+        Emi nextEmi;
+        if(unpaid.size()==1){
+            nextEmi=null;
+        }
+        else nextEmi=unpaid.get(1);
 
         String txnId = "TXN-" + UUID.randomUUID().toString().toUpperCase().substring(0, 12);
 
@@ -71,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
             return dto;
         }
 
-        Payment payment = processPayment(emi, txnId);
+        Payment payment = processPayment(emi,nextEmi, txnId);
         log.info("EMI #{} paid for loan {}. TxnId: {}", emi.getInstallmentNumber(), loanId, txnId);
 
         PaymentResponseDto dto = borrowerMapper.toPaymentDto(payment);
@@ -117,7 +133,7 @@ public class PaymentServiceImpl implements PaymentService {
         );
     }
 
-    private Payment processPayment(Emi emi, String txnId) {
+    private Payment processPayment(Emi emi,Emi nextEmi, String txnId) {
         BigDecimal amount = emi.getTotalDueAmount() != null
                 ? emi.getTotalDueAmount()
                 : emi.getRemainingAmount();
@@ -137,6 +153,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         //update existing debt in financialprofile
         financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().subtract(emi.getTotalDueAmount())));
+
+        if(nextEmi!=null){
+            financialProfileRepository.findById(emi.getLoan().getBorrower().getPan()).ifPresent(f->f.setExistingDebt(f.getExistingDebt().add(nextEmi.getTotalDueAmount())));
+        }
 
         Payment payment = new Payment();
         payment.setEmi(emi);

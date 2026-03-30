@@ -1,5 +1,7 @@
 package com.tss.loanEmiSchedular.enums;
 
+import java.math.BigDecimal;
+
 public enum LoanType {
 
     PERSONAL(12.0),

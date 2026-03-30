@@ -65,4 +65,5 @@ public class KycServiceImpl implements KycService {
         return "KYC successful";
 
     }
+
 }

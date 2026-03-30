@@ -11,6 +11,7 @@ import com.tss.loanEmiSchedular.mapper.LoanMapper;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
+import com.tss.loanEmiSchedular.service.FinancialService;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,8 +29,7 @@ public class OfficerServiceImpl implements OfficerService {
     private final EmiServiceImpl emiService;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final UserRepository userRepository;
-
-    private final FinancialProfileRepository financialProfileRepository;
+    private final FinancialService financialService;
 
     @Override
     public List<LoanSummaryResponseDto> viewPendingApplications() {
@@ -54,7 +54,7 @@ public class OfficerServiceImpl implements OfficerService {
     }
 
     @Override
-    public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto,String email) {
+    public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto,String officerMail) {
         Loan loan=loanRepository.findById(loanId)
                 .orElseThrow(()->new RuntimeException("Loan not found"));
 
@@ -63,7 +63,8 @@ public class OfficerServiceImpl implements OfficerService {
             throw new RuntimeException("Loan already processed");
         }
 
-        User officer= userRepository.findByEmail(email)
+
+        User officer= userRepository.findByEmail(officerMail)
                         .orElseThrow(()->new RuntimeException("User not found"));
 
         System.out.println(loan.getStatus());
@@ -90,14 +91,15 @@ public class OfficerServiceImpl implements OfficerService {
             loan.setStatus(LoanStatus.ACTIVE);
 
             loan.setReminingDebt(loan.getLoanAmount());
-            String pan = loan.getBorrower().getPan();
-            financialProfileRepository.findById(pan).ifPresent(f->f.setExistingDebt(f.getExistingDebt().add(loan.getLoanAmount())));
+
 
             loanRepository.save(loan);
 
             System.out.println("loan saved");
 
             emiService.generateSchedule(loan);
+
+            financialService.addFirstEmiToExistingDebt(emiService.calculateBaseEmi(loan),loan.getBorrower().getUser());
 
             applicationEventPublisher.publishEvent(new LoanDecisionEvent(loan,
                     loan.getBorrower().getUser().getEmail(),
@@ -117,4 +119,6 @@ public class OfficerServiceImpl implements OfficerService {
 
         return loanMapper.toSummaryResponseDto(loan);
     }
+
+
 }

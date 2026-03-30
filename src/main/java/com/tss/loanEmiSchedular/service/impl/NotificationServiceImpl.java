@@ -84,4 +84,22 @@ public class NotificationServiceImpl implements NotificationService {
                 body
         );
     }
+
+    @Override
+    public void sendOTP(String email, String OTP)
+    {
+        Context context = new Context();
+
+        context.setVariable("name",email);
+        context.setVariable("otp",OTP);
+
+
+        String body = templateEngine.process("otp-email", context);
+
+        emailService.sendEmail(
+                email,
+                "Your OTP for Email Verification (Valid for 5 Minutes)",
+                body
+        );
+    }
 }

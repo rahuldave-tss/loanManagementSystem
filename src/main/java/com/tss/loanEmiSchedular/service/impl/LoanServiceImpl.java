@@ -11,7 +11,9 @@ import com.tss.loanEmiSchedular.events.LoanAppliedEvent;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
+import com.tss.loanEmiSchedular.service.EmiService;
 import com.tss.loanEmiSchedular.service.LoanService;
+import com.tss.loanEmiSchedular.strategy.EmiStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategyFactory;
 
@@ -34,6 +36,7 @@ public class LoanServiceImpl implements LoanService {
     private final LoanStrategyFactory strategyFactory;
     private final FinancialProfileRepository financialProfileRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final EmiService emiService;
 
     @Override
     public String applyLoan(LoanApplicationRequest request, String email) {
@@ -97,9 +100,24 @@ public class LoanServiceImpl implements LoanService {
         loan.setStatus(LoanStatus.PENDING);
         loan.setDeleted(false);
 
-        loanRepository.save(loan);
-
         log.info("Loan applied of user: {}",email);
+
+        BigDecimal baseEmi=emiService.calculateBaseEmi(loan);
+        System.out.println("base emi: "+baseEmi);
+        BigDecimal totalMonthlyDebt=existingDebt.add(baseEmi);
+        BigDecimal finalDti=totalMonthlyDebt.divide(monthlyIncome,2,RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
+        System.out.println("finalDti: "+finalDti);
+
+        if(finalDti.compareTo(BigDecimal.valueOf(40))>0){
+            loan.setStatus(LoanStatus.REJECTED);
+            log.info("Final dti of user is >40 , So Loan Rejected");
+
+            loanRepository.save(loan);
+            return "Loan Rejected Due to High DTI";
+        }
+
+        loanRepository.save(loan);
 
         applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email,user));
 

@@ -29,7 +29,9 @@ public interface EmiRepository extends JpaRepository<Emi, Long> {
 """)
     List<Emi> findUnpaidEmisByLoanIdOrdered(@Param("loanId") Long loanId);
 
-    Optional<Emi> findById(Long emiId);  // already exists via JpaRepository<Emi, Integer> — but fix the ID type to Long (see note below)
+
+
+    Optional<Emi> findById(Long emiId);
 
     @Query("""
     SELECT e FROM Emi e
@@ -42,4 +44,6 @@ public interface EmiRepository extends JpaRepository<Emi, Long> {
             @Param("loanId") Long loanId,
             @Param("installmentNumber") Integer installmentNumber
     );
+
+    boolean existsByLoanId(Long loanId);
 }
