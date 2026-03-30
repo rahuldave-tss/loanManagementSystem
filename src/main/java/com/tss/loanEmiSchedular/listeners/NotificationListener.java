@@ -1,9 +1,6 @@
 package com.tss.loanEmiSchedular.listeners;
 
-import com.tss.loanEmiSchedular.events.EmiOverdueEvent;
-import com.tss.loanEmiSchedular.events.LoanAppliedEvent;
-import com.tss.loanEmiSchedular.events.LoanDecisionEvent;
-import com.tss.loanEmiSchedular.events.PaymentReminderEvent;
+import com.tss.loanEmiSchedular.events.*;
 import com.tss.loanEmiSchedular.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -46,4 +43,12 @@ public class NotificationListener {
                 event.getEmi()
         );
     }
+
+    @Async
+    @EventListener
+    public void handleSignup(SignupEvent event)
+    {
+        notificationService.sendOTP(event.getEmail(),event.getOtp());
+    }
+
 }

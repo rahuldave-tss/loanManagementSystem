@@ -8,10 +8,9 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
@@ -23,6 +22,11 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.signUp(dto));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<String> verify(@RequestParam String email, @RequestParam String otp) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.verifyOtp(email,otp));
     }
 
     @PostMapping("/signin")

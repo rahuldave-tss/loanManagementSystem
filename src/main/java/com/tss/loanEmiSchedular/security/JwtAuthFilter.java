@@ -48,6 +48,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            if(!user.isEmailVerified())
+            {
+                String path = request.getRequestURI();
+                if(!path.startsWith("/auth/verify"))
+                {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().write("Verify Your email First");
+                    return;
+                }
+
+            }
             if(user.getRole().equals(Role.BORROWER) && !user.isKycVerified()){
 
                 String path=request.getRequestURI();

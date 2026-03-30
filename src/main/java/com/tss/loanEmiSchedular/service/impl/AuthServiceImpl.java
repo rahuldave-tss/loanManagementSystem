@@ -5,25 +5,34 @@ import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.Role;
+import com.tss.loanEmiSchedular.events.SignupEvent;
 import com.tss.loanEmiSchedular.exception.UserAlreadyExistsException;
 import com.tss.loanEmiSchedular.exception.UserNotFoundException;
 import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.service.AuthService;
 import com.tss.loanEmiSchedular.util.JwtUtil;
+import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private ApplicationEventPublisher applicationEventPublisher;
     private final JwtUtil jwtUtil;
 
-    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
+    private final Map<String, SignupRequestDTO> data = new ConcurrentHashMap<>();
+    private final Map<String, String> otpMap = new ConcurrentHashMap<>();
+    private final Map<String, Long> expiry = new ConcurrentHashMap<>();
+
+
 
     //signup
     @Override
@@ -34,13 +43,18 @@ public class AuthServiceImpl implements AuthService {
                     throw new UserAlreadyExistsException("User already exists");
                 });
 
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(dto.getRole());
 
-        userRepository.save(user);
-        return "User registered successfully";
+        String otp = String.valueOf(new Random().nextInt(900000) + 100000);
+
+        // store temp
+        data.put(dto.getEmail(), dto);
+        otpMap.put(dto.getEmail(), otp);
+        expiry.put(dto.getEmail(), System.currentTimeMillis() + 5 * 60 * 1000);
+
+        // send email via event
+        applicationEventPublisher.publishEvent(new SignupEvent(dto.getEmail(), otp));
+
+        return "OTP sent to your email";
     }
 
     //signin
@@ -55,6 +69,37 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtil.generateToken(user.getEmail());
 
         return new AuthResponseDTO("Login successful", token);
+    }
+
+    public String verifyOtp(String email, String otp) {
+
+        if (!expiry.containsKey(email) || System.currentTimeMillis() > expiry.get(email)) {
+            remove(email);
+            return "OTP expired";
+        }
+
+        if (!otpMap.get(email).equals(otp)) {
+            return "Invalid OTP";
+        }
+
+        SignupRequestDTO dto = data.get(email);
+
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(dto.getRole());
+
+        userRepository.save(user);
+
+        remove(email);
+
+        return "User registered successfully";
+    }
+
+    private void remove(String email) {
+        data.remove(email);
+        otpMap.remove(email);
+        expiry.remove(email);
     }
 
 }
