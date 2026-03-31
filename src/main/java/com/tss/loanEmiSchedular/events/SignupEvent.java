@@ -1,7 +1,12 @@
 package com.tss.loanEmiSchedular.events;
 
 import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 public class SignupEvent {
 
     private final String email;
@@ -10,13 +15,5 @@ public class SignupEvent {
     public SignupEvent(String email, String otp) {
         this.email = email;
         this.otp = otp;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getOtp() {
-        return otp;
     }
 }

@@ -27,7 +27,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@Validated
 @PreAuthorize("hasRole('BORROWER')")
 @RequestMapping("/borrower")
 public class BorrowerController {
