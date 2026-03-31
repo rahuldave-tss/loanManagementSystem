@@ -179,3 +179,713 @@ This generated password is for development use only. Your security configuration
 2026-03-31T14:23:14.931+05:30  INFO 4580 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-03-31T14:23:14.934+05:30  INFO 4580 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-03-31T14:23:14.937+05:30  INFO 4580 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-31T16:25:48.945+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Starting LoanEmiSchedularApplication using Java 18.0.2.1 with PID 17988 (C:\Users\Rahul.Dave\Desktop\loanEmiSchedular\target\classes started by Rahul.Dave in C:\Users\Rahul.Dave\Desktop\loanEmiSchedular)
+2026-03-31T16:25:48.949+05:30 DEBUG 17988 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-03-31T16:25:48.950+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T16:25:49.003+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T16:25:49.004+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T16:25:49.749+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T16:25:49.815+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 7 JPA repository interfaces.
+2026-03-31T16:25:50.480+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-31T16:25:50.493+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T16:25:50.493+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-31T16:25:50.537+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1533 ms
+2026-03-31T16:25:50.676+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-31T16:25:50.737+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-31T16:25:51.167+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T16:25:51.195+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T16:25:51.404+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@63ff9d6d
+2026-03-31T16:25:51.405+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T16:25:51.475+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/loanEmiSchedular]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: loanEmiSchedular/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-31T16:25:52.598+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T16:25:52.672+05:30  WARN 17988 --- [loanEmiSchedular] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table if exists users add column is_email_verified boolean not null" via JDBC [ERROR: column "is_email_verified" of relation "users" contains null values]
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table if exists users add column is_email_verified boolean not null" via JDBC [ERROR: column "is_email_verified" of relation "users" contains null values]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:81) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:566) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:506) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:324) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:220) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:96) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:269) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$1(SchemaManagementToolCoordinator.java:101) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:100) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:35) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:33) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:323) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryRegistry.instantiateSessionFactory(SessionFactoryRegistry.java:64) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:437) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1456) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:93) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:443) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:436) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:411) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:419) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1864) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1813) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:196) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:513) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:356) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1712) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1461) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:912) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1382) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1221) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615) ~[spring-context-7.0.6.jar:7.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-4.0.4.jar:4.0.4]
+	at com.tss.loanEmiSchedular.LoanEmiSchedularApplication.main(LoanEmiSchedularApplication.java:16) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:577) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52) ~[spring-boot-devtools-4.0.4.jar:4.0.4]
+Caused by: org.postgresql.util.PSQLException: ERROR: column "is_email_verified" of relation "users" contains null values
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2875) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2560) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:429) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:526) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:436) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:358) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:343) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:319) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:314) ~[postgresql-42.7.10.jar:42.7.10]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-7.0.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-7.0.2.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:76) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	... 112 common frames omitted
+
+2026-03-31T16:25:52.704+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T16:25:52.772+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T16:25:53.053+05:30 DEBUG 17988 --- [loanEmiSchedular] [restartedMain] c.t.l.security.JwtAuthFilter             : Filter 'jwtAuthFilter' configured for use
+2026-03-31T16:25:53.844+05:30  WARN 17988 --- [loanEmiSchedular] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T16:25:53.958+05:30  WARN 17988 --- [loanEmiSchedular] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: fcda37c6-8c9d-4289-b44b-7c70d7846563
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-31T16:25:53.964+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-31T16:25:54.433+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-31T16:25:54.458+05:30  INFO 17988 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Started LoanEmiSchedularApplication in 6.123 seconds (process running for 7.005)
+2026-03-31T16:28:29.509+05:30  INFO 17988 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T16:28:29.510+05:30  INFO 17988 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T16:28:29.513+05:30  INFO 17988 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-03-31T16:28:29.949+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.tss.loanEmiSchedular.enums.Role` from number 123: index value outside legal index range [0..1]]
+2026-03-31T16:28:41.922+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.tss.loanEmiSchedular.enums.Role` from String "Borrower": not one of the values accepted for Enum class: [BORROWER, LOAN_OFFICER]]
+2026-03-31T16:28:49.703+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<java.lang.String> com.tss.loanEmiSchedular.controller.AuthController.signup(com.tss.loanEmiSchedular.dto.request.SignupRequestDTO): [Field error in object 'signupRequestDTO' on field 'email': rejected value [abc123@]; codes [Email.signupRequestDTO.email,Email.email,Email.java.lang.String,Email]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequestDTO.email,email]; arguments []; default message [email],[Ljakarta.validation.constraints.Pattern$Flag;@373f7cbb,.*]; default message [Invalid email format]] ]
+2026-03-31T16:28:58.667+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 42703
+2026-03-31T16:28:58.667+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.error             : ERROR: column u1_0.is_email_verified does not exist
+  Position: 58
+2026-03-31T16:28:58.684+05:30  WARN 17988 --- [loanEmiSchedular] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: JDBC exception executing SQL [ERROR: column u1_0.is_email_verified does not exist<EOL>  Position: 58] [select u1_0.id,u1_0.created_at,u1_0.email,u1_0.is_active,u1_0.is_email_verified,u1_0.is_kyc_verified,u1_0.last_login,u1_0.password,u1_0.role,u1_0.updated_at from users u1_0 where u1_0.email=?]; SQL [select u1_0.id,u1_0.created_at,u1_0.email,u1_0.is_active,u1_0.is_email_verified,u1_0.is_kyc_verified,u1_0.last_login,u1_0.password,u1_0.role,u1_0.updated_at from users u1_0 where u1_0.email=?]]
+2026-03-31T17:11:58.154+05:30  WARN 17988 --- [loanEmiSchedular] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m36s1ms512µs700ns).
+2026-03-31T17:12:25.756+05:30  INFO 17988 --- [loanEmiSchedular] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-31T17:12:26.032+05:30  INFO 17988 --- [loanEmiSchedular] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-31T17:12:26.072+05:30  INFO 17988 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:12:26.116+05:30  INFO 17988 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T17:12:26.132+05:30  INFO 17988 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-31T17:26:52.724+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Starting LoanEmiSchedularApplication using Java 18.0.2.1 with PID 6044 (C:\Users\Rahul.Dave\Desktop\loanEmiSchedular\target\classes started by Rahul.Dave in C:\Users\Rahul.Dave\Desktop\loanEmiSchedular)
+2026-03-31T17:26:52.728+05:30 DEBUG 6044 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-03-31T17:26:52.729+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T17:26:52.794+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T17:26:52.794+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T17:26:53.500+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T17:26:53.580+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 7 JPA repository interfaces.
+2026-03-31T17:26:54.381+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-31T17:26:54.392+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T17:26:54.392+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-31T17:26:54.433+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1638 ms
+2026-03-31T17:26:54.555+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-31T17:26:54.615+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-31T17:26:55.013+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T17:26:55.041+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T17:26:55.245+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@63ff9d6d
+2026-03-31T17:26:55.247+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T17:26:55.325+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/loanEmiSchedular]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: loanEmiSchedular/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-31T17:26:56.415+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T17:26:56.488+05:30  WARN 6044 --- [loanEmiSchedular] [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "alter table if exists users add column is_email_verified boolean not null" via JDBC [ERROR: column "is_email_verified" of relation "users" contains null values]
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table if exists users add column is_email_verified boolean not null" via JDBC [ERROR: column "is_email_verified" of relation "users" contains null values]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:81) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:566) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:506) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:324) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:220) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:96) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:269) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$1(SchemaManagementToolCoordinator.java:101) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:100) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:35) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:33) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:323) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionFactoryRegistry.instantiateSessionFactory(SessionFactoryRegistry.java:64) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:437) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1456) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:93) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:443) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:436) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:411) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:419) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1864) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1813) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:196) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:691) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:513) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1362) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:356) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1712) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1461) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:602) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:1225) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1704) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1651) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:912) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1382) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1221) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:565) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:525) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:333) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:371) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:331) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:201) ~[spring-beans-7.0.6.jar:7.0.6]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:231) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:185) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:180) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:165) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:97) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.context.servlet.WebApplicationContextInitializer.initialize(WebApplicationContextInitializer.java:53) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.DeferredServletContainerInitializers.onStartup(DeferredServletContainerInitializers.java:55) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4416) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435) ~[tomcat-embed-core-11.0.18.jar:11.0.18]
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166) ~[spring-boot-tomcat-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615) ~[spring-context-7.0.6.jar:7.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-web-server-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365) ~[spring-boot-4.0.4.jar:4.0.4]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-4.0.4.jar:4.0.4]
+	at com.tss.loanEmiSchedular.LoanEmiSchedularApplication.main(LoanEmiSchedularApplication.java:16) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:577) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:52) ~[spring-boot-devtools-4.0.4.jar:4.0.4]
+Caused by: org.postgresql.util.PSQLException: ERROR: column "is_email_verified" of relation "users" contains null values
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2875) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2560) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:429) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:526) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:436) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:358) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:343) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:319) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:314) ~[postgresql-42.7.10.jar:42.7.10]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-7.0.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-7.0.2.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:76) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	... 112 common frames omitted
+
+2026-03-31T17:26:56.532+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:26:56.624+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T17:26:56.891+05:30 DEBUG 6044 --- [loanEmiSchedular] [restartedMain] c.t.l.security.JwtAuthFilter             : Filter 'jwtAuthFilter' configured for use
+2026-03-31T17:26:57.653+05:30  WARN 6044 --- [loanEmiSchedular] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T17:26:57.754+05:30  WARN 6044 --- [loanEmiSchedular] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 4854f037-ef8d-4ddb-baa3-697d6005f9e1
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-31T17:26:57.761+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-31T17:26:58.252+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-31T17:26:58.260+05:30  INFO 6044 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Started LoanEmiSchedularApplication in 6.025 seconds (process running for 6.895)
+2026-03-31T17:27:26.706+05:30  INFO 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T17:27:26.707+05:30  INFO 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T17:27:26.711+05:30  INFO 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-03-31T17:27:27.139+05:30  WARN 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 42703
+2026-03-31T17:27:27.140+05:30  WARN 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.error             : ERROR: column u1_0.is_email_verified does not exist
+  Position: 58
+2026-03-31T17:27:27.215+05:30  WARN 6044 --- [loanEmiSchedular] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: JDBC exception executing SQL [ERROR: column u1_0.is_email_verified does not exist<EOL>  Position: 58] [select u1_0.id,u1_0.created_at,u1_0.email,u1_0.is_active,u1_0.is_email_verified,u1_0.is_kyc_verified,u1_0.last_login,u1_0.password,u1_0.role,u1_0.updated_at from users u1_0 where u1_0.email=?]; SQL [select u1_0.id,u1_0.created_at,u1_0.email,u1_0.is_active,u1_0.is_email_verified,u1_0.is_kyc_verified,u1_0.last_login,u1_0.password,u1_0.role,u1_0.updated_at from users u1_0 where u1_0.email=?]]
+2026-03-31T17:27:36.631+05:30  INFO 6044 --- [loanEmiSchedular] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-31T17:27:36.880+05:30  INFO 6044 --- [loanEmiSchedular] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-31T17:27:36.886+05:30  INFO 6044 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:27:36.889+05:30  INFO 6044 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T17:27:36.892+05:30  INFO 6044 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-31T17:28:56.401+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Starting LoanEmiSchedularApplication using Java 18.0.2.1 with PID 9060 (C:\Users\Rahul.Dave\Desktop\loanEmiSchedular\target\classes started by Rahul.Dave in C:\Users\Rahul.Dave\Desktop\loanEmiSchedular)
+2026-03-31T17:28:56.403+05:30 DEBUG 9060 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-03-31T17:28:56.404+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T17:28:56.455+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T17:28:56.455+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T17:28:57.222+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T17:28:57.296+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 7 JPA repository interfaces.
+2026-03-31T17:28:57.948+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-31T17:28:57.961+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T17:28:57.961+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-31T17:28:58.006+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1550 ms
+2026-03-31T17:28:58.137+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-31T17:28:58.197+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-31T17:28:58.598+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T17:28:58.624+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T17:28:58.822+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@63ff9d6d
+2026-03-31T17:28:58.824+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T17:28:58.888+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/loanEmiSchedular]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: loanEmiSchedular/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-31T17:28:59.953+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T17:29:00.185+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-03-31T17:29:00.185+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : constraint "ukij64jgaa5eol2bkora1bblhn9" of relation "addresses" does not exist, skipping
+2026-03-31T17:29:00.195+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-03-31T17:29:00.196+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : constraint "ukfs4g78uvigd193dvjt8xoxq22" of relation "borrower_profiles" does not exist, skipping
+2026-03-31T17:29:00.205+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-03-31T17:29:00.205+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : constraint "uk3irgjxfxajvbjwii86nppaxv8" of relation "borrower_profiles" does not exist, skipping
+2026-03-31T17:29:00.215+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-03-31T17:29:00.215+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : constraint "uk2u1wocp65pmmk73ww85pi5lvu" of relation "borrower_profiles" does not exist, skipping
+2026-03-31T17:29:00.224+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : HHH000247: ErrorCode: 0, SQLState: 00000
+2026-03-31T17:29:00.224+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jdbc.warn              : constraint "uk6dotkott2kjsp8vw4d0m25fb7" of relation "users" does not exist, skipping
+2026-03-31T17:29:00.256+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T17:29:00.324+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T17:29:00.522+05:30 DEBUG 9060 --- [loanEmiSchedular] [restartedMain] c.t.l.security.JwtAuthFilter             : Filter 'jwtAuthFilter' configured for use
+2026-03-31T17:29:01.256+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T17:29:01.356+05:30  WARN 9060 --- [loanEmiSchedular] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: cc567ba7-dd7d-4b37-a297-7f7befddb347
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-31T17:29:01.363+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-31T17:29:01.841+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-31T17:29:01.849+05:30  INFO 9060 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Started LoanEmiSchedularApplication in 5.915 seconds (process running for 6.714)
+2026-03-31T17:29:13.779+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T17:29:13.780+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T17:29:13.785+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-03-31T17:29:14.280+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.tss.loanEmiSchedular.exception.UserNotFoundException: User not found]
+2026-03-31T17:29:43.778+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.tss.loanEmiSchedular.exception.UserNotFoundException: User not found]
+2026-03-31T17:31:08.882+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource loans/apply for request '/loans/apply'.]
+2026-03-31T17:31:47.527+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T17:31:47.555+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T17:32:08.687+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid password]
+2026-03-31T17:34:19.966+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: Invalid password]
+2026-03-31T17:40:33.971+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T17:40:33.985+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T17:40:33.986+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.LoanServiceImpl       : Final dti of user is >40 , So Loan Rejected
+2026-03-31T17:41:10.180+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T17:41:10.190+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T17:41:10.190+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.LoanServiceImpl       : Final dti of user is >40 , So Loan Rejected
+2026-03-31T17:41:38.963+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #1 paid for loan 1. TxnId: TXN-271D61BC-2EA
+2026-03-31T17:41:40.682+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.PaymentServiceImpl    : EMI #2 paid for loan 1. TxnId: TXN-FC6D86C7-FB7
+2026-03-31T17:41:43.235+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #3 paid for loan 1. TxnId: TXN-3272E6E0-78D
+2026-03-31T17:41:44.114+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-9] c.t.l.service.impl.PaymentServiceImpl    : EMI #4 paid for loan 1. TxnId: TXN-7F7A5C5F-9D8
+2026-03-31T17:41:44.903+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-10] c.t.l.service.impl.PaymentServiceImpl    : EMI #5 paid for loan 1. TxnId: TXN-053C0028-7E6
+2026-03-31T17:41:45.615+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-3] c.t.l.service.impl.PaymentServiceImpl    : EMI #6 paid for loan 1. TxnId: TXN-3DF50414-9E7
+2026-03-31T17:41:46.315+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.PaymentServiceImpl    : EMI #7 paid for loan 1. TxnId: TXN-A3127A11-16F
+2026-03-31T17:41:47.080+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.PaymentServiceImpl    : EMI #8 paid for loan 1. TxnId: TXN-10E10A4E-183
+2026-03-31T17:41:47.747+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.PaymentServiceImpl    : EMI #9 paid for loan 1. TxnId: TXN-4C2CBDE9-79D
+2026-03-31T17:41:48.464+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-5] c.t.l.service.impl.PaymentServiceImpl    : EMI #10 paid for loan 1. TxnId: TXN-FBE11A2F-257
+2026-03-31T17:41:49.171+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #11 paid for loan 1. TxnId: TXN-50E73871-22F
+2026-03-31T17:41:49.861+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.PaymentServiceImpl    : EMI #12 paid for loan 1. TxnId: TXN-C64C3567-AD8
+2026-03-31T17:41:50.510+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #13 paid for loan 1. TxnId: TXN-8B5AB913-BE8
+2026-03-31T17:41:51.171+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-9] c.t.l.service.impl.PaymentServiceImpl    : EMI #14 paid for loan 1. TxnId: TXN-B639B637-912
+2026-03-31T17:41:51.805+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-10] c.t.l.service.impl.PaymentServiceImpl    : EMI #15 paid for loan 1. TxnId: TXN-7379B70D-667
+2026-03-31T17:41:52.402+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-3] c.t.l.service.impl.PaymentServiceImpl    : EMI #16 paid for loan 1. TxnId: TXN-F5159B26-C49
+2026-03-31T17:41:53.037+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.PaymentServiceImpl    : EMI #17 paid for loan 1. TxnId: TXN-FB529AF6-373
+2026-03-31T17:41:53.711+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.PaymentServiceImpl    : EMI #18 paid for loan 1. TxnId: TXN-E91A7334-4F5
+2026-03-31T17:41:54.307+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.PaymentServiceImpl    : EMI #19 paid for loan 1. TxnId: TXN-D0EF2C09-0ED
+2026-03-31T17:41:54.955+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-5] c.t.l.service.impl.PaymentServiceImpl    : EMI #20 paid for loan 1. TxnId: TXN-24664A22-D09
+2026-03-31T17:41:55.579+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #21 paid for loan 1. TxnId: TXN-BC3CBE8F-660
+2026-03-31T17:41:56.328+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.PaymentServiceImpl    : EMI #22 paid for loan 1. TxnId: TXN-926B2904-B68
+2026-03-31T17:41:57.039+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #23 paid for loan 1. TxnId: TXN-185F6051-64D
+2026-03-31T17:41:57.690+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-9] c.t.l.service.impl.PaymentServiceImpl    : EMI #24 paid for loan 1. TxnId: TXN-4929564F-CB3
+2026-03-31T17:41:58.796+05:30  WARN 9060 --- [loanEmiSchedular] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: You can only pay EMIs of ACTIVE loan]
+2026-03-31T17:42:06.380+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T17:42:06.388+05:30  INFO 9060 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T18:12:31.588+05:30  INFO 9060 --- [loanEmiSchedular] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-31T18:12:31.835+05:30  INFO 9060 --- [loanEmiSchedular] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-31T18:12:31.857+05:30  INFO 9060 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:12:31.881+05:30  INFO 9060 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T18:12:31.896+05:30  INFO 9060 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-31T18:12:37.290+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Starting LoanEmiSchedularApplication using Java 18.0.2.1 with PID 19996 (C:\Users\Rahul.Dave\Desktop\loanEmiSchedular\target\classes started by Rahul.Dave in C:\Users\Rahul.Dave\Desktop\loanEmiSchedular)
+2026-03-31T18:12:37.292+05:30 DEBUG 19996 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-03-31T18:12:37.293+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T18:12:37.348+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T18:12:37.348+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T18:12:37.989+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T18:12:38.058+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 7 JPA repository interfaces.
+2026-03-31T18:12:38.737+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-31T18:12:38.748+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T18:12:38.748+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-31T18:12:38.788+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1440 ms
+2026-03-31T18:12:38.914+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-31T18:12:38.974+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-31T18:12:39.357+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T18:12:39.385+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T18:12:39.568+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b5447d7
+2026-03-31T18:12:39.569+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T18:12:39.651+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/loanEmiSchedular]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: loanEmiSchedular/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-31T18:12:40.736+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T18:12:40.837+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:12:40.905+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T18:12:41.106+05:30 DEBUG 19996 --- [loanEmiSchedular] [restartedMain] c.t.l.security.JwtAuthFilter             : Filter 'jwtAuthFilter' configured for use
+2026-03-31T18:12:41.859+05:30  WARN 19996 --- [loanEmiSchedular] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T18:12:41.966+05:30  WARN 19996 --- [loanEmiSchedular] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 8bd46afc-44b7-4a15-8793-27203c0a1e34
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-31T18:12:41.973+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-31T18:12:42.485+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-31T18:12:42.493+05:30  INFO 19996 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Started LoanEmiSchedularApplication in 5.685 seconds (process running for 6.332)
+2026-03-31T18:13:30.669+05:30  INFO 19996 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T18:13:30.669+05:30  INFO 19996 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T18:13:30.672+05:30  INFO 19996 --- [loanEmiSchedular] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-03-31T18:13:31.258+05:30  INFO 19996 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T18:13:31.310+05:30  INFO 19996 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T18:21:52.913+05:30  INFO 19996 --- [loanEmiSchedular] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-31T18:21:53.144+05:30  INFO 19996 --- [loanEmiSchedular] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-31T18:21:53.152+05:30  INFO 19996 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:21:53.156+05:30  INFO 19996 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T18:21:53.165+05:30  INFO 19996 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-03-31T18:21:58.039+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Starting LoanEmiSchedularApplication using Java 18.0.2.1 with PID 20728 (C:\Users\Rahul.Dave\Desktop\loanEmiSchedular\target\classes started by Rahul.Dave in C:\Users\Rahul.Dave\Desktop\loanEmiSchedular)
+2026-03-31T18:21:58.042+05:30 DEBUG 20728 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-03-31T18:21:58.043+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-03-31T18:21:58.111+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-31T18:21:58.112+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-31T18:21:58.732+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-31T18:21:58.803+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 7 JPA repository interfaces.
+2026-03-31T18:21:59.397+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-31T18:21:59.413+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-31T18:21:59.413+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-31T18:21:59.460+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1347 ms
+2026-03-31T18:21:59.627+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-31T18:21:59.695+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-31T18:22:00.515+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-31T18:22:00.591+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-31T18:22:01.141+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f374a28
+2026-03-31T18:22:01.144+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-31T18:22:01.288+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/loanEmiSchedular]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.3
+	Default catalog/schema: loanEmiSchedular/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-31T18:22:04.042+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-31T18:22:04.270+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:22:04.969+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-31T18:22:05.685+05:30 DEBUG 20728 --- [loanEmiSchedular] [restartedMain] c.t.l.security.JwtAuthFilter             : Filter 'jwtAuthFilter' configured for use
+2026-03-31T18:22:07.701+05:30  WARN 20728 --- [loanEmiSchedular] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-31T18:22:07.959+05:30  WARN 20728 --- [loanEmiSchedular] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 978a34e8-c46b-4af0-90b8-e03a9ad97ec1
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-31T18:22:07.965+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-31T18:22:08.440+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-31T18:22:08.448+05:30  INFO 20728 --- [loanEmiSchedular] [restartedMain] c.t.l.LoanEmiSchedularApplication        : Started LoanEmiSchedularApplication in 10.827 seconds (process running for 11.472)
+2026-03-31T18:22:10.540+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-31T18:22:10.541+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-31T18:22:10.545+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-03-31T18:22:11.113+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] c.t.l.service.impl.PaymentServiceImpl    : EMI #1 paid for loan 5. TxnId: TXN-D5630B3D-78D
+2026-03-31T18:22:12.423+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #2 paid for loan 5. TxnId: TXN-E95F33A5-0F1
+2026-03-31T18:22:13.306+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.PaymentServiceImpl    : EMI #3 paid for loan 5. TxnId: TXN-DB43813E-139
+2026-03-31T18:22:13.925+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #4 paid for loan 5. TxnId: TXN-CF15014C-AA5
+2026-03-31T18:22:14.636+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-5] c.t.l.service.impl.PaymentServiceImpl    : EMI #5 paid for loan 5. TxnId: TXN-FCD31FA1-0F1
+2026-03-31T18:22:15.271+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.PaymentServiceImpl    : EMI #6 paid for loan 5. TxnId: TXN-CF6C0ABE-618
+2026-03-31T18:22:15.834+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-9] c.t.l.service.impl.PaymentServiceImpl    : EMI #7 paid for loan 5. TxnId: TXN-9A83F2AB-87B
+2026-03-31T18:22:16.358+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.PaymentServiceImpl    : EMI #8 paid for loan 5. TxnId: TXN-73CCFB7B-5E8
+2026-03-31T18:22:16.883+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-10] c.t.l.service.impl.PaymentServiceImpl    : EMI #9 paid for loan 5. TxnId: TXN-A58DB7A2-C60
+2026-03-31T18:22:17.447+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.PaymentServiceImpl    : EMI #10 paid for loan 5. TxnId: TXN-EFDEDEA2-3CA
+2026-03-31T18:22:18.029+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] c.t.l.service.impl.PaymentServiceImpl    : EMI #11 paid for loan 5. TxnId: TXN-66170380-BAA
+2026-03-31T18:22:18.557+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #12 paid for loan 5. TxnId: TXN-469E9429-781
+2026-03-31T18:22:19.072+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.PaymentServiceImpl    : EMI #13 paid for loan 5. TxnId: TXN-238FD082-152
+2026-03-31T18:22:19.542+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #14 paid for loan 5. TxnId: TXN-52782E18-0F3
+2026-03-31T18:22:20.104+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-5] c.t.l.service.impl.PaymentServiceImpl    : EMI #15 paid for loan 5. TxnId: TXN-BB890832-DFB
+2026-03-31T18:22:20.598+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.PaymentServiceImpl    : EMI #16 paid for loan 5. TxnId: TXN-98CF7EB3-8DA
+2026-03-31T18:22:21.096+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-9] c.t.l.service.impl.PaymentServiceImpl    : EMI #17 paid for loan 5. TxnId: TXN-921F9113-F24
+2026-03-31T18:22:21.606+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-8] c.t.l.service.impl.PaymentServiceImpl    : EMI #18 paid for loan 5. TxnId: TXN-F25532ED-368
+2026-03-31T18:22:22.162+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-10] c.t.l.service.impl.PaymentServiceImpl    : EMI #19 paid for loan 5. TxnId: TXN-2395B662-95A
+2026-03-31T18:22:22.721+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-1] c.t.l.service.impl.PaymentServiceImpl    : EMI #20 paid for loan 5. TxnId: TXN-D9B0BC6C-D17
+2026-03-31T18:22:23.277+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-3] c.t.l.service.impl.PaymentServiceImpl    : EMI #21 paid for loan 5. TxnId: TXN-377EF6CB-200
+2026-03-31T18:22:26.205+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-2] c.t.l.service.impl.PaymentServiceImpl    : EMI #22 paid for loan 5. TxnId: TXN-54B01FBF-B7C
+2026-03-31T18:22:27.117+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-4] c.t.l.service.impl.PaymentServiceImpl    : EMI #23 paid for loan 5. TxnId: TXN-4FAEC8DE-709
+2026-03-31T18:22:27.823+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-6] c.t.l.service.impl.PaymentServiceImpl    : EMI #24 paid for loan 5. TxnId: TXN-FFC33CC6-566
+2026-03-31T18:22:29.590+05:30  WARN 20728 --- [loanEmiSchedular] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.lang.RuntimeException: You can only pay EMIs of ACTIVE loan]
+2026-03-31T18:22:38.454+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.LoanServiceImpl       : Applying loan for user: fakefakef5634@gmail.com
+2026-03-31T18:22:38.478+05:30  INFO 20728 --- [loanEmiSchedular] [http-nio-8080-exec-7] c.t.l.service.impl.LoanServiceImpl       : Loan applied of user: fakefakef5634@gmail.com
+2026-03-31T18:22:38.507+05:30  WARN 20728 --- [loanEmiSchedular] [task-1] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23503
+2026-03-31T18:22:38.507+05:30  WARN 20728 --- [loanEmiSchedular] [task-1] org.hibernate.orm.jdbc.error             : ERROR: insert or update on table "audit_logs" violates foreign key constraint "fkkgy7rt5xw9wb8ysn8gvgojjl8"
+  Detail: Key (loan_id)=(6) is not present in table "loans".
+2026-03-31T18:22:38.525+05:30 ERROR 20728 --- [loanEmiSchedular] [task-1] .a.i.SimpleAsyncUncaughtExceptionHandler : Unexpected exception occurred invoking async method: public void com.tss.loanEmiSchedular.listeners.AuditEventListener.handleLoanApplied(com.tss.loanEmiSchedular.events.LoanAppliedEvent)
+
+org.springframework.dao.DataIntegrityViolationException: could not execute statement [ERROR: insert or update on table "audit_logs" violates foreign key constraint "fkkgy7rt5xw9wb8ysn8gvgojjl8"
+  Detail: Key (loan_id)=(6) is not present in table "loans".] [insert into audit_logs (actor_type,audit_action,created_at,emi_id,loan_id,new_status,new_strategy,performed_by,prev_status,previous_strategy,remarks,updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into audit_logs (actor_type,audit_action,created_at,emi_id,loan_id,new_status,new_strategy,performed_by,prev_status,previous_strategy,remarks,updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?)]; constraint [fkkgy7rt5xw9wb8ysn8gvgojjl8]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:169) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:131) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.translateExceptionIfPossible(HibernateExceptionTranslator.java:105) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:223) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:576) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:346) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:157) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:166) ~[spring-data-jpa-4.0.4.jar:4.0.4]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:222) ~[spring-aop-7.0.6.jar:7.0.6]
+	at jdk.proxy4/jdk.proxy4.$Proxy160.save(Unknown Source) ~[na:na]
+	at com.tss.loanEmiSchedular.service.impl.AuditServiceImpl.logLoanAction(AuditServiceImpl.java:39) ~[classes/:na]
+	at com.tss.loanEmiSchedular.listeners.AuditEventListener.handleLoanApplied(AuditEventListener.java:22) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:577) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:112) ~[spring-aop-7.0.6.jar:7.0.6]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement [ERROR: insert or update on table "audit_logs" violates foreign key constraint "fkkgy7rt5xw9wb8ysn8gvgojjl8"
+  Detail: Key (loan_id)=(6) is not present in table "loans".] [insert into audit_logs (actor_type,audit_action,created_at,emi_id,loan_id,new_status,new_strategy,performed_by,prev_status,previous_strategy,remarks,updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?)]
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:73) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:34) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:115) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:184) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.id.insert.GetGeneratedKeysDelegate.performMutation(GetGeneratedKeysDelegate.java:103) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.MutationExecutorSingleNonBatched.performNonBatchedOperations(MutationExecutorSingleNonBatched.java:45) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:66) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:55) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.doStaticInserts(InsertCoordinatorStandard.java:180) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.coordinateInsert(InsertCoordinatorStandard.java:120) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.insert(InsertCoordinatorStandard.java:84) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:85) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:667) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:291) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:270) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:322) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:371) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:285) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:215) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:133) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:144) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.persist(DefaultPersistEventListener.java:90) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:74) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:50) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:138) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:692) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:675) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:577) ~[na:na]
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityHandlerInvocationHandler.invokeMethod(SharedEntityManagerCreator.java:240) ~[spring-orm-7.0.6.jar:7.0.6]
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:386) ~[spring-orm-7.0.6.jar:7.0.6]
+	at jdk.proxy4/jdk.proxy4.$Proxy145.persist(Unknown Source) ~[na:na]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:664) ~[spring-data-jpa-4.0.4.jar:4.0.4]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:577) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:278) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:169) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:545) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:290) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:690) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:171) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:146) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69) ~[spring-data-commons-4.0.4.jar:4.0.4]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:133) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:371) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:130) ~[spring-tx-7.0.6.jar:7.0.6]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.6.jar:7.0.6]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:135) ~[spring-tx-7.0.6.jar:7.0.6]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "audit_logs" violates foreign key constraint "fkkgy7rt5xw9wb8ysn8gvgojjl8"
+  Detail: Key (loan_id)=(6) is not present in table "loans".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2875) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2560) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:429) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:526) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:436) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:196) ~[postgresql-42.7.10.jar:42.7.10]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:157) ~[postgresql-42.7.10.jar:42.7.10]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-7.0.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-7.0.2.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:181) ~[hibernate-core-7.2.7.Final.jar:7.2.7.Final]
+	... 66 common frames omitted
+
+2026-03-31T18:25:42.198+05:30  INFO 20728 --- [loanEmiSchedular] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-31T18:25:42.428+05:30  INFO 20728 --- [loanEmiSchedular] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-31T18:25:42.436+05:30  INFO 20728 --- [loanEmiSchedular] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-31T18:25:42.442+05:30  INFO 20728 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-03-31T18:25:42.453+05:30  INFO 20728 --- [loanEmiSchedular] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

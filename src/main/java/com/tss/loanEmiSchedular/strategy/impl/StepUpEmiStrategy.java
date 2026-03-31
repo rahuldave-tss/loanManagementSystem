@@ -16,6 +16,10 @@ import java.util.List;
 @Component("STEP_UP")
 public class StepUpEmiStrategy implements EmiStrategy {
 
+    private static final BigDecimal STEP_FACTOR = BigDecimal.valueOf(1.10);
+    private static final int SCALE = 10;
+    private static final BigDecimal TOLERANCE = BigDecimal.valueOf(0.01);
+
     @Override
     @Transactional
     public List<Emi> generateSchedule(Loan loan) {
@@ -23,41 +27,29 @@ public class StepUpEmiStrategy implements EmiStrategy {
         List<Emi> emis = new ArrayList<>();
 
         BigDecimal principal = loan.getLoanAmount();
-        BigDecimal monthlyRate = loan.getInterestRate()
-                .divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
+        BigDecimal monthlyRate = getMonthlyRate(loan);
 
         int tenure = loan.getTenure();
-
-        // Base EMI (normal reducing EMI)
-        double baseEmiDouble = (principal.doubleValue() * monthlyRate.doubleValue() *
-                Math.pow(1 + monthlyRate.doubleValue(), tenure)) /
-                (Math.pow(1 + monthlyRate.doubleValue(), tenure) - 1);
-
-        BigDecimal baseEmi = BigDecimal.valueOf(baseEmiDouble)
-                .setScale(2, RoundingMode.HALF_UP);
-
-        // Step-up factor (10%)
-        BigDecimal stepFactor = BigDecimal.valueOf(1.10);
-
         int stepPoint = tenure / 2;
+
+        BigDecimal baseEmi = findBaseEmi(loan).setScale(2, RoundingMode.HALF_UP);
 
         BigDecimal remainingPrincipal = principal;
 
         for (int i = 1; i <= tenure; i++) {
+
             LocalDate startDate = loan.getCreatedAt().toLocalDate();
             int emiDay = startDate.getDayOfMonth();
 
             LocalDate dueDate = startDate.plusMonths(i);
             int lastDay = dueDate.lengthOfMonth();
-
             dueDate = dueDate.withDayOfMonth(Math.min(emiDay, lastDay));
 
-            // Decide EMI amount
+            // Step-up logic
             BigDecimal emiAmount = (i <= stepPoint)
                     ? baseEmi
-                    : baseEmi.multiply(stepFactor).setScale(2, RoundingMode.HALF_UP);
+                    : baseEmi.multiply(STEP_FACTOR).setScale(2, RoundingMode.HALF_UP);
 
-            // Interest calculation
             BigDecimal interest = remainingPrincipal.multiply(monthlyRate)
                     .setScale(2, RoundingMode.HALF_UP);
 
@@ -67,7 +59,7 @@ public class StepUpEmiStrategy implements EmiStrategy {
             // Last EMI correction
             if (i == tenure) {
                 principalPart = remainingPrincipal;
-                emiAmount = principalPart.add(interest);
+                emiAmount = principalPart.add(interest).setScale(2, RoundingMode.HALF_UP);
             }
 
             remainingPrincipal = remainingPrincipal.subtract(principalPart);
@@ -94,20 +86,65 @@ public class StepUpEmiStrategy implements EmiStrategy {
 
     @Override
     public BigDecimal calculateEmi(Loan loan) {
-        BigDecimal principal = loan.getLoanAmount();
-        BigDecimal monthlyRate = loan.getInterestRate()
-                .divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
+        return findBaseEmi(loan).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal findBaseEmi(Loan loan) {
+
+        BigDecimal low = BigDecimal.ZERO;
+        BigDecimal high = loan.getLoanAmount().multiply(BigDecimal.valueOf(2));
+        BigDecimal emi = BigDecimal.ZERO;
+
+        for (int i = 0; i < 1000; i++) {
+
+            emi = low.add(high).divide(BigDecimal.valueOf(2), SCALE, RoundingMode.HALF_UP);
+
+            BigDecimal remaining = simulate(loan, emi);
+
+            // Convergence check
+//            if (remaining.abs().compareTo(TOLERANCE) < 0) {
+//                break;
+//            }
+
+            if (remaining.compareTo(BigDecimal.ZERO) > 0) {
+                low = emi;   // EMI too small
+            } else {
+                high = emi;  // EMI too big
+            }
+        }
+
+        return emi;
+    }
+
+    private BigDecimal simulate(Loan loan, BigDecimal emi) {
+
+        BigDecimal remaining = loan.getLoanAmount();
+        BigDecimal monthlyRate = getMonthlyRate(loan);
 
         int tenure = loan.getTenure();
+        int stepPoint = tenure / 2;
 
-        // Base EMI (normal reducing EMI)
-        double baseEmiDouble = (principal.doubleValue() * monthlyRate.doubleValue() *
-                Math.pow(1 + monthlyRate.doubleValue(), tenure)) /
-                (Math.pow(1 + monthlyRate.doubleValue(), tenure) - 1);
+        for (int i = 1; i <= tenure; i++) {
 
-        BigDecimal baseEmi = BigDecimal.valueOf(baseEmiDouble)
-                .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal emiAmount = (i <= stepPoint)
+                    ? emi
+                    : emi.multiply(STEP_FACTOR).setScale(SCALE, RoundingMode.HALF_UP);
 
-        return baseEmi;
+            BigDecimal interest = remaining.multiply(monthlyRate)
+                    .setScale(SCALE, RoundingMode.HALF_UP);
+
+            BigDecimal principal = emiAmount.subtract(interest)
+                    .setScale(SCALE, RoundingMode.HALF_UP);
+
+            remaining = remaining.subtract(principal)
+                    .setScale(SCALE, RoundingMode.HALF_UP);
+        }
+
+        return remaining;
+    }
+
+    private BigDecimal getMonthlyRate(Loan loan) {
+        return loan.getInterestRate()
+                .divide(BigDecimal.valueOf(12 * 100), SCALE, RoundingMode.HALF_UP);
     }
 }
