@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -39,6 +40,7 @@ public class LoanServiceImpl implements LoanService {
     private final EmiService emiService;
 
     @Override
+    @Transactional
     public String applyLoan(LoanApplicationRequest request, String email) {
         log.info("Applying loan for user: {}",email);
 

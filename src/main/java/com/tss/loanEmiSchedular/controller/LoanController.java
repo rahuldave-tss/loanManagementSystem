@@ -25,7 +25,7 @@ public class LoanController {
 
         String email = authentication.getName();
 
-        return ResponseEntity.status(HttpStatus.OK).body(loanService.applyLoan(request, email));
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.applyLoan(request, email));
     }
 
 }

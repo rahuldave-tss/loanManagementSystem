@@ -5,6 +5,7 @@ import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.enums.EmiStatus;
 import com.tss.loanEmiSchedular.strategy.EmiStrategy;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,6 +17,7 @@ import java.util.List;
 public class StepUpEmiStrategy implements EmiStrategy {
 
     @Override
+    @Transactional
     public List<Emi> generateSchedule(Loan loan) {
 
         List<Emi> emis = new ArrayList<>();

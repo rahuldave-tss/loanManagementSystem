@@ -54,16 +54,7 @@ public class EmiServiceImpl implements EmiService {
         LocalDate today=LocalDate.now();
 
         for(Emi emi:emis){
-            long daysLeft = ChronoUnit.DAYS.between(today, emi.getDueDate());
-
-            if(!emi.isFullyPaid() &&
-                emi.getEmiStatus() == EmiStatus.PENDING &&
-                    daysLeft>=0 &&
-                    daysLeft<=3){
-
-                applicationEventPublisher.publishEvent(new PaymentReminderEvent(emi));
-                log.info("Pending Amount Reminder sent to : "+emi.getLoan().getBorrower().getUser().getEmail());
-            }
+            sendPaymentReminder(emi);
 
             if (!emi.isFullyPaid() &&
                     emi.getEmiStatus() == EmiStatus.PENDING &&
@@ -101,4 +92,22 @@ public class EmiServiceImpl implements EmiService {
 
         return strategy.calculateEmi(loan);
     }
+
+    @Override
+    public void sendPaymentReminder(Emi emi) {
+        LocalDate today=LocalDate.now();
+
+        long daysLeft = ChronoUnit.DAYS.between(today, emi.getDueDate());
+
+        if(!emi.isFullyPaid() &&
+                emi.getEmiStatus() == EmiStatus.PENDING &&
+                daysLeft>=0 &&
+                daysLeft<=3){
+
+            applicationEventPublisher.publishEvent(new PaymentReminderEvent(emi));
+            log.info("Pending Amount Reminder sent to : "+emi.getLoan().getBorrower().getUser().getEmail());
+        }
+    }
+
+
 }

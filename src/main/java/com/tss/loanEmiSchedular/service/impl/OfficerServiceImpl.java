@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class OfficerServiceImpl implements OfficerService {
     }
 
     @Override
+    @Transactional
     public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto,String officerMail) {
         Loan loan=loanRepository.findById(loanId)
                 .orElseThrow(()->new RuntimeException("Loan not found"));
