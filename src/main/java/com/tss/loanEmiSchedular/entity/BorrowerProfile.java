@@ -3,6 +3,7 @@ package com.tss.loanEmiSchedular.entity;
 import jakarta.persistence.*;
 import jdk.jfr.StackTrace;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
