@@ -7,6 +7,9 @@ import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.LoanStrategyType;
 import com.tss.loanEmiSchedular.events.LoanDecisionEvent;
+import com.tss.loanEmiSchedular.exception.BusinessException;
+import com.tss.loanEmiSchedular.exception.InvalidPageException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.mapper.LoanMapper;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,21 +38,20 @@ public class OfficerServiceImpl implements OfficerService {
 
     @Override
     public List<LoanSummaryResponseDto> viewPendingApplications() {
-        List<Loan> loans=loanRepository.findByStatusWithBorrower(LoanStatus.PENDING);
+        List<Loan> loans = loanRepository.findByStatusWithBorrower(LoanStatus.PENDING);
 
-        if(loans.isEmpty())
-        {
-            throw new RuntimeException("No Pending Application Present");
+        if (loans.isEmpty()) {
+            throw new ResourceNotFoundException("No Pending Application Present");
         }
         return loans.stream().map(loanMapper::toSummaryResponseDto).toList();
     }
 
     @Override
     public Page<LoanSummaryResponseDto> viewPendingApplicationsByPage(Pageable pageable) {
-        Page<Loan> loanPage=loanRepository.findByStatus(LoanStatus.PENDING,pageable);
+        Page<Loan> loanPage = loanRepository.findByStatus(LoanStatus.PENDING, pageable);
 
         if (pageable.getPageNumber() >= loanPage.getTotalPages()) {
-            throw new RuntimeException("Page number out of range");
+            throw new InvalidPageException("Page number out of range");
         }
         return loanPage.map(loanMapper::toSummaryResponseDto);
 
@@ -56,22 +59,22 @@ public class OfficerServiceImpl implements OfficerService {
 
     @Override
     @Transactional
-    public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto,String officerMail) {
-        Loan loan=loanRepository.findById(loanId)
-                .orElseThrow(()->new RuntimeException("Loan not found"));
+    public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto, String officerMail) {
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
 
         System.out.println(loan);
-        if(loan.getStatus()!=LoanStatus.PENDING){
-            throw new RuntimeException("Loan already processed");
+        if (loan.getStatus() != LoanStatus.PENDING) {
+            throw new BusinessException("Loan already processed", HttpStatus.CONFLICT);
         }
 
 
-        User officer= userRepository.findByEmail(officerMail)
-                        .orElseThrow(()->new RuntimeException("User not found"));
+        User officer = userRepository.findByEmail(officerMail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         System.out.println(loan.getStatus());
 
-        if(loanDecisionRequestDto.getDecision()==LoanStatus.REJECTED){
+        if (loanDecisionRequestDto.getDecision() == LoanStatus.REJECTED) {
             loan.setStatus(LoanStatus.REJECTED);
             loanRepository.save(loan);
             applicationEventPublisher.publishEvent(new LoanDecisionEvent(loan,
@@ -82,10 +85,10 @@ public class OfficerServiceImpl implements OfficerService {
 
         System.out.println("loan not rejected");
 
-        if(loanDecisionRequestDto.getDecision()==LoanStatus.APPROVED){
+        if (loanDecisionRequestDto.getDecision() == LoanStatus.APPROVED) {
 
-            LoanStrategyType finalStrategy=
-                    loanDecisionRequestDto.getOverrideStrategy()!=null
+            LoanStrategyType finalStrategy =
+                    loanDecisionRequestDto.getOverrideStrategy() != null
                             ? loanDecisionRequestDto.getOverrideStrategy()
                             : loan.getSuggestedStrategy();
 
@@ -101,23 +104,23 @@ public class OfficerServiceImpl implements OfficerService {
 
             emiService.generateSchedule(loan);
 
-            financialService.addFirstEmiToExistingDebt(emiService.calculateBaseEmi(loan),loan.getBorrower().getUser());
+            financialService.addFirstEmiToExistingDebt(emiService.calculateBaseEmi(loan), loan.getBorrower().getUser());
 
             applicationEventPublisher.publishEvent(new LoanDecisionEvent(loan,
                     loan.getBorrower().getUser().getEmail(),
                     officer));
 
 
-            return "Loan Approved with Strategy: "+finalStrategy;
+            return "Loan Approved with Strategy: " + finalStrategy;
         }
 
-        throw new RuntimeException("Invalid Decision");
+        throw new BusinessException("Invalid Decision",HttpStatus.BAD_REQUEST);
     }
 
     @Override
     public LoanSummaryResponseDto viewLoan(Long loanId) {
-        Loan loan=loanRepository.findById(loanId)
-                .orElseThrow(()->new RuntimeException("Loan not found"));
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
 
         return loanMapper.toSummaryResponseDto(loan);
     }

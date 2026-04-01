@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,7 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String email = jwtUtil.extractEmail(token);
             User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new BadCredentialsException("User not found"));
 
             String path = request.getRequestURI();
 
@@ -80,15 +81,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             );
 
         } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Token expired. Please login again.\"}");
-            return;
+            throw new BadCredentialsException("Token expired");
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Invalid token.\"}");
-            return;
+            throw new BadCredentialsException("Invalid Token");
         }
 
         filterChain.doFilter(request, response); // next()

@@ -5,6 +5,9 @@ import com.tss.loanEmiSchedular.dto.response.EmiResponseDto;
 import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.entity.User;
+import com.tss.loanEmiSchedular.exception.AccessDeniedException;
+import com.tss.loanEmiSchedular.exception.InvalidPageException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.mapper.BorrowerMapper;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
@@ -14,8 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
@@ -36,7 +42,7 @@ public class BorrowerServiceImpl implements BorrowerService {
 
         if(loan.isEmpty())
         {
-            throw new RuntimeException("No ACTIVE OR PENDING Loans Present");
+            throw new ResourceNotFoundException("No ACTIVE OR PENDING Loans Present");
         }
         return loan.stream().map(borrowerMapper::toLoanResponseDto).toList();
     }
@@ -46,7 +52,7 @@ public class BorrowerServiceImpl implements BorrowerService {
         Page<Loan> loanPage = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email,pageable);
 
         if (pageable.getPageNumber() >= loanPage.getTotalPages()) {
-            throw new RuntimeException("Page number out of range");
+            throw new InvalidPageException("Page number out of range");
         }
 
         return loanPage.map(borrowerMapper::toLoanResponseDto);
@@ -60,13 +66,13 @@ public class BorrowerServiceImpl implements BorrowerService {
                 .orElseThrow(() -> new RuntimeException("Loan not found"));
 
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Access denied: this loan does not belong to you");
+            throw new AccessDeniedException("Access denied: this loan does not belong to you");
         }
 
         List<Emi> emis=emiRepository.findByLoanIdOrderByInstallmentNumberAsc(loanId);
 
         if(emis.isEmpty()){
-            throw new RuntimeException("No EMI schedule generated");
+            throw new ResourceNotFoundException("No EMI schedule generated");
         }
 
         return borrowerMapper.toEmiResponseDtoList(emis);

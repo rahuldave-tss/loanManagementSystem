@@ -2,29 +2,34 @@ package com.tss.loanEmiSchedular.service.impl;
 
 
 import com.tss.loanEmiSchedular.dto.request.LoanApplicationRequest;
+import com.tss.loanEmiSchedular.dto.response.LoanTypeResponse;
 import com.tss.loanEmiSchedular.entity.FinancialProfile;
 import com.tss.loanEmiSchedular.entity.Loan;
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.LoanStrategyType;
+import com.tss.loanEmiSchedular.enums.LoanType;
 import com.tss.loanEmiSchedular.events.LoanAppliedEvent;
+import com.tss.loanEmiSchedular.exception.BusinessException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.LoanRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.service.EmiService;
 import com.tss.loanEmiSchedular.service.LoanService;
-import com.tss.loanEmiSchedular.strategy.EmiStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategy;
 import com.tss.loanEmiSchedular.strategy.LoanStrategyFactory;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,16 +47,16 @@ public class LoanServiceImpl implements LoanService {
     @Override
     @Transactional
     public String applyLoan(LoanApplicationRequest request, String email) {
-        log.info("Applying loan for user: {}",email);
+        log.info("Applying loan for user: {}", email);
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()->new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         System.out.println("user get");
 
         if (!user.isKycVerified()) {
             log.error("Error while applying loan, KYC not done");
-            throw new RuntimeException("Complete KYC first ");
+            throw new BusinessException("Complete KYC first", HttpStatus.FORBIDDEN);
         }
         System.out.println("kyc done");
 
@@ -61,17 +66,17 @@ public class LoanServiceImpl implements LoanService {
         Integer pendingLoans = loanRepository
                 .findByBorrowerAndStatus(user.getBorrowerProfile(), LoanStatus.PENDING).size();
 
-        if (activeLoans+pendingLoans >= 3) {
-            throw new RuntimeException("Maximum 3 active and pending loans allowed");
+        if (activeLoans + pendingLoans >= 3) {
+            throw new BusinessException("Maximum 3 active and pending loans allowed", HttpStatus.BAD_REQUEST);
         }
 
         System.out.println("loan is less than 3");
         FinancialProfile profile = financialProfileRepository.findById(user.getBorrowerProfile().getPan())
-                .orElseThrow(()-> new RuntimeException("Financial Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Financial Profile not found"));
 
         BigDecimal monthlyIncome = profile.getMonthlyIncome();
         BigDecimal existingDebt = profile.getExistingDebt();
-        BigDecimal dti = (existingDebt.divide(monthlyIncome,2, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
+        BigDecimal dti = (existingDebt.divide(monthlyIncome, 2, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
         System.out.println("Dti done");
 
         LoanStrategy strategy = strategyFactory.getStrategy(dti);
@@ -102,16 +107,16 @@ public class LoanServiceImpl implements LoanService {
         loan.setStatus(LoanStatus.PENDING);
         loan.setDeleted(false);
 
-        log.info("Loan applied of user: {}",email);
+        log.info("Loan applied of user: {}", email);
 
-        BigDecimal baseEmi=emiService.calculateBaseEmi(loan);
-        System.out.println("base emi: "+baseEmi);
-        BigDecimal totalMonthlyDebt=existingDebt.add(baseEmi);
-        BigDecimal finalDti=totalMonthlyDebt.divide(monthlyIncome,2,RoundingMode.HALF_UP)
+        BigDecimal baseEmi = emiService.calculateBaseEmi(loan);
+        System.out.println("base emi: " + baseEmi);
+        BigDecimal totalMonthlyDebt = existingDebt.add(baseEmi);
+        BigDecimal finalDti = totalMonthlyDebt.divide(monthlyIncome, 2, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100));
-        System.out.println("finalDti: "+finalDti);
+        System.out.println("finalDti: " + finalDti);
 
-        if(finalDti.compareTo(BigDecimal.valueOf(40))>0){
+        if (finalDti.compareTo(BigDecimal.valueOf(40)) > 0) {
             loan.setStatus(LoanStatus.REJECTED);
             log.info("Final dti of user is >40 , So Loan Rejected");
             loan.setDti(finalDti);
@@ -121,8 +126,19 @@ public class LoanServiceImpl implements LoanService {
 
         loanRepository.save(loan);
 
-        applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email,user));
+        applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan, email, user));
 
         return "Loan Applied Successfully";
+    }
+
+    @Override
+    public List<LoanTypeResponse> getAllLoanTypes() {
+
+        return Arrays.stream(LoanType.values())
+                .map(type -> new LoanTypeResponse(
+                        type.name(),
+                        type.getInterestRate()
+                ))
+                .toList();
     }
 }
