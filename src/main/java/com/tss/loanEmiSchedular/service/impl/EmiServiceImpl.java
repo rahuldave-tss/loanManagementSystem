@@ -54,7 +54,6 @@ public class EmiServiceImpl implements EmiService {
         LocalDate today=LocalDate.now();
 
         for(Emi emi:emis){
-            sendPaymentReminder(emi);
 
             if (!emi.isFullyPaid() &&
                     emi.getEmiStatus() == EmiStatus.PENDING &&
@@ -77,8 +76,9 @@ public class EmiServiceImpl implements EmiService {
                         : emi.getRemainingAmount();
 
                 emi.setTotalDueAmount(currentDue.add(penalty));
+                emi.setRemainingAmount(emi.getRemainingAmount().add(penalty));
 
-                applicationEventPublisher.publishEvent(new EmiOverdueEvent(emi));
+                applicationEventPublisher.publishEvent(new EmiOverdueEvent(emi.getId(),emi.getLoan().getBorrower().getUser().getEmail()));
             }
         }
 
@@ -94,18 +94,29 @@ public class EmiServiceImpl implements EmiService {
     }
 
     @Override
-    public void sendPaymentReminder(Emi emi) {
-        LocalDate today=LocalDate.now();
+    @Transactional
+    public void sendPaymentReminder() {
 
-        long daysLeft = ChronoUnit.DAYS.between(today, emi.getDueDate());
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusDays(3);
 
-        if(!emi.isFullyPaid() &&
-                emi.getEmiStatus() == EmiStatus.PENDING &&
-                daysLeft>=0 &&
-                daysLeft<=3){
+        List<Emi> emis = emiRepository.findUpcomingEmis(today, endDate);
 
-            applicationEventPublisher.publishEvent(new PaymentReminderEvent(emi));
-            log.info("Pending Amount Reminder sent to : "+emi.getLoan().getBorrower().getUser().getEmail());
+        for (Emi emi : emis) {
+
+            if (!emi.isFullyPaid() &&
+                    emi.getEmiStatus() == EmiStatus.PENDING) {
+
+                applicationEventPublisher.publishEvent(
+                        new PaymentReminderEvent(
+                                emi.getId(),
+                                emi.getLoan().getBorrower().getUser().getEmail()
+                        )
+                );
+
+                log.info("Reminder sent to: {}",
+                        emi.getLoan().getBorrower().getUser().getEmail());
+            }
         }
     }
 

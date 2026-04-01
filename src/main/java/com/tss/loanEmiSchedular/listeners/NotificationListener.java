@@ -1,16 +1,20 @@
 package com.tss.loanEmiSchedular.listeners;
 
+import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.events.*;
+import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class NotificationListener {
     private final NotificationService notificationService;
+    private final EmiRepository emiRepository;
 
     @Async
     @EventListener
@@ -28,19 +32,29 @@ public class NotificationListener {
 
     @Async
     @EventListener
+    @Transactional
     public void handlePaymentReminder(PaymentReminderEvent event){
+
+        Emi emi=emiRepository.findById(event.getEmiId())
+                        .orElseThrow(()->new RuntimeException("Emi not found"));
+
         notificationService.sendPaymentReminder(
-                event.getEmi().getLoan().getBorrower().getUser().getEmail(),
-                event.getEmi()
+                event.getEmail(),
+                emi
         );
     }
 
     @Async
+    @Transactional
     @EventListener
     public void handleOverdue(EmiOverdueEvent event) {
+
+        Emi emi=emiRepository.findById(event.getEmiId())
+                .orElseThrow(()->new RuntimeException("Emi not found"));
+
         notificationService.sendOverdueAlert(
-                event.getEmi().getLoan().getBorrower().getUser().getEmail(),
-                event.getEmi()
+                emi.getLoan().getBorrower().getUser().getEmail(),
+                emi
         );
     }
 

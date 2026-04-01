@@ -44,7 +44,6 @@ public class DataLoader implements CommandLineRunner {
 
         saveIfNotExists("LKJHG9900P", "Pooja Nair", LocalDate.of(1994, 12, 21), BigDecimal.valueOf(65000), BigDecimal.valueOf(18000), 730);
 
-        saveOfficerIfNotExists("officer@gmail.com","1234");
     }
 
     private void saveIfNotExists(String pan, String name, LocalDate date, BigDecimal income, BigDecimal debt, int score) {

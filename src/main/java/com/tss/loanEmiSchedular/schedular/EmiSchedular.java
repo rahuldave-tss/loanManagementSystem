@@ -15,5 +15,6 @@ public class EmiSchedular {
 //    @Scheduled(cron = "*/30 * * * * ?")
     public void markOverdueEmis(){
         emiService.markOverdueEmis();
+        emiService.sendPaymentReminder();
     }
 }

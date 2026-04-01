@@ -13,9 +13,7 @@ public class LoanSummaryResponseDto {
     private BigDecimal loanAmount;
     private Integer tenure;
     private BigDecimal dti;
-
     private String suggestedStrategy;
     private Integer creditScore;
-
     private String status;
 }

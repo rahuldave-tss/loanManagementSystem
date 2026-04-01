@@ -7,9 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentReminderEvent {
-    private Emi emi;
+    private Long emiId;
+    private String email;
 
-    public PaymentReminderEvent(Emi emi){
-        this.emi=emi;
+    public PaymentReminderEvent(Long emiId,String email){
+        this.emiId=emiId;
+        this.email=email;
     }
 }

@@ -114,7 +114,7 @@ public class LoanServiceImpl implements LoanService {
         if(finalDti.compareTo(BigDecimal.valueOf(40))>0){
             loan.setStatus(LoanStatus.REJECTED);
             log.info("Final dti of user is >40 , So Loan Rejected");
-
+            loan.setDti(finalDti);
             loanRepository.save(loan);
             return "Loan Rejected Due to High DTI";
         }
@@ -123,6 +123,6 @@ public class LoanServiceImpl implements LoanService {
 
         applicationEventPublisher.publishEvent(new LoanAppliedEvent(loan,email,user));
 
-        return "Loan Applied Successfully Strategy: " + strategyType;
+        return "Loan Applied Successfully";
     }
 }

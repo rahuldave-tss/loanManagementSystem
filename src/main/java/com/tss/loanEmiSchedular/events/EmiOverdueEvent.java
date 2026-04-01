@@ -7,9 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EmiOverdueEvent {
-    private Emi emi;
+    private Long emiId;
+    private String email;
 
-    public EmiOverdueEvent(Emi emi){
-        this.emi=emi;
+    public EmiOverdueEvent(Long emiId,String email){
+        this.emiId=emiId;
+        this.email=email;
     }
 }

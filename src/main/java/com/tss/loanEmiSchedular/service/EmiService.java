@@ -9,5 +9,5 @@ public interface EmiService {
     void generateSchedule(Loan loan);
     void markOverdueEmis();
     BigDecimal calculateBaseEmi(Loan loan);
-    void sendPaymentReminder(Emi emi);
+    void sendPaymentReminder();
 }

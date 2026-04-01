@@ -15,8 +15,5 @@ public class BorrowerLoanResponseDto {
     private BigDecimal interestRate;
     private String loanType;
     private String status;
-    private String selectedStrategy;
-    private String suggestedStrategy;
-    private BigDecimal dti;
     private Integer creditScore;
 }

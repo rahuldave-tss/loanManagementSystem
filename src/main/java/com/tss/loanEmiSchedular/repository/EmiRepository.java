@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,13 @@ public interface EmiRepository extends JpaRepository<Emi, Long> {
         AND e.dueDate < CURRENT_DATE
     """)
     List<Emi> findAllPendingEmis();
+
+    @Query("""
+    SELECT e FROM Emi e
+    WHERE e.emiStatus = 'PENDING'
+    AND e.dueDate BETWEEN :startDate AND :endDate
+""")
+    List<Emi> findUpcomingEmis(LocalDate startDate, LocalDate endDate);
 
 
     List<Emi> findByLoanIdOrderByInstallmentNumberAsc(Long loanId);

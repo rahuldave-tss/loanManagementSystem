@@ -17,10 +17,8 @@ public interface BorrowerMapper {
 
     // ── Loan → BorrowerLoanResponseDto ──────────────────────────────────────
     @Mapping(source = "id",               target = "loanId")
-    @Mapping(source = "loanType",         target = "loanType")        // enum → String (auto via name())
-    @Mapping(source = "status",           target = "status")          // enum → String
-    @Mapping(source = "selectedStrategy", target = "selectedStrategy") // enum → String (null-safe)
-    @Mapping(source = "suggestedStrategy", target = "suggestedStrategy")  // ← add this
+    @Mapping(source = "loanType",         target = "loanType")
+    @Mapping(source = "status",           target = "status")
     BorrowerLoanResponseDto toLoanResponseDto(Loan loan);
 
     List<BorrowerLoanResponseDto> toLoanDtoList(List<Loan> loans);

@@ -1,20 +1,24 @@
 package com.tss.loanEmiSchedular.listeners;
 
+import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.enums.ActorType;
 import com.tss.loanEmiSchedular.enums.AuditAction;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.events.*;
+import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class AuditEventListener {
 
     private final AuditLogService auditLogService;
+    private final EmiRepository emiRepository;
 
     @Async
     @EventListener
@@ -51,11 +55,16 @@ public class AuditEventListener {
     }
 
     @Async
+    @Transactional
     @EventListener
     public void handleReminder(PaymentReminderEvent event){
+
+        Emi emi=emiRepository.findById(event.getEmiId())
+                .orElseThrow(()->new RuntimeException("Emi not found"));
+
         auditLogService.logEmiAction(
-                event.getEmi().getLoan(),
-                event.getEmi(),
+                emi.getLoan(),
+                emi,
                 ActorType.SYSTEM,
                 AuditAction.PAYMENT_REMINDER_SENT,
                 "Reminder sent 3 days before due date"
@@ -63,11 +72,16 @@ public class AuditEventListener {
     }
 
     @Async
+    @Transactional
     @EventListener
     public void handleOverdue(EmiOverdueEvent event){
+
+        Emi emi=emiRepository.findById(event.getEmiId())
+                .orElseThrow(()->new RuntimeException("Emi not found"));
+
         auditLogService.logEmiAction(
-                event.getEmi().getLoan(),
-                event.getEmi(),
+                emi.getLoan(),
+                emi,
                 ActorType.SYSTEM,
                 AuditAction.EMI_MARKED_OVERDUE,
                 "EMI marked as overdue"

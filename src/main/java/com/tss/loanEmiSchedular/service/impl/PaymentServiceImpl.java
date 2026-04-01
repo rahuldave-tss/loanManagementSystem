@@ -142,6 +142,7 @@ public class PaymentServiceImpl implements PaymentService {
         emi.setEmiStatus(EmiStatus.PAID);
         emi.setTotalPaidAmount(amount);
         emi.setRemainingAmount(BigDecimal.ZERO);
+        emi.setTotalDueAmount(BigDecimal.ZERO);
         emiRepository.save(emi);
 
         //update remaining debt
