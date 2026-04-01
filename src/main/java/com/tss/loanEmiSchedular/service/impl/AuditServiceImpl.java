@@ -8,6 +8,8 @@ import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.ActorType;
 import com.tss.loanEmiSchedular.enums.AuditAction;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
+import com.tss.loanEmiSchedular.exception.InvalidPageException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.mapper.AuditLogMapper;
 import com.tss.loanEmiSchedular.repository.AuditLogRepository;
 import com.tss.loanEmiSchedular.service.AuditLogService;
@@ -56,7 +58,7 @@ public class AuditServiceImpl implements AuditLogService {
         List<AuditLog> auditLogs=auditLogRepository.getAuditLogsOfLoan(loanId);
 
         if(auditLogs.isEmpty()){
-            throw new RuntimeException("No Audit Logs Found");
+            throw new ResourceNotFoundException("No Audit Logs Found");
         }
 
         return auditLogs.stream().map(auditLogMapper::toResponseDto).toList();
@@ -69,7 +71,7 @@ public class AuditServiceImpl implements AuditLogService {
 
 
         if (pageable.getPageNumber() >= auditLogPage.getTotalPages()) {
-            throw new RuntimeException("Page number out of range");
+            throw new InvalidPageException("Page number out of range");
         }
         return auditLogPage.map(auditLogMapper::toResponseDto);
     }

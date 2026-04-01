@@ -1,5 +1,6 @@
 package com.tss.loanEmiSchedular.service.impl;
 
+import com.tss.loanEmiSchedular.exception.EmailSendingException;
 import com.tss.loanEmiSchedular.service.EmailService;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class EmailServiceImpl implements EmailService {
 
         }
         catch (Exception e){
-            throw new RuntimeException("Email sending failed",e);
+            throw new EmailSendingException("Email sending failed");
         }
     }
 }

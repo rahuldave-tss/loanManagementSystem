@@ -9,6 +9,9 @@ import com.tss.loanEmiSchedular.enums.EmiStatus;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.enums.PaymentStatus;
 import com.tss.loanEmiSchedular.events.EmiPaidEvent;
+import com.tss.loanEmiSchedular.exception.AccessDeniedException;
+import com.tss.loanEmiSchedular.exception.BusinessException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.mapper.BorrowerMapper;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
@@ -18,6 +21,8 @@ import com.tss.loanEmiSchedular.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,14 +47,14 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponseDto payEmi(String email, Long loanId) {
 
         Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
 
         if(loan.getStatus()!=LoanStatus.ACTIVE){
-            throw new RuntimeException("You can only pay EMIs of ACTIVE loan");
+            throw new BusinessException("You can only pay EMIs of ACTIVE loan",HttpStatus.BAD_REQUEST);
         }
 
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Access denied: this loan does not belong to you");
+            throw new AccessDeniedException("Access denied: this loan does not belong to you");
         }
 
         List<Emi> unpaid = emiRepository.findUnpaidEmisByLoanIdOrdered(loanId);
@@ -57,10 +62,10 @@ public class PaymentServiceImpl implements PaymentService {
         if (unpaid.isEmpty()) {
             boolean emisExist=emiRepository.existsByLoanId(loanId);
             if(!emisExist){
-                throw new RuntimeException("EMIs are not generated yet!");
+                throw new BusinessException("EMIs are not generated yet!",HttpStatus.BAD_REQUEST);
             }
             else{
-                throw new RuntimeException("All EMIs are already paid for this loan");
+                throw new BusinessException("All EMIs are already paid for this loan",HttpStatus.CONFLICT);
             }
         }
 
@@ -101,15 +106,15 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentHistoryResponseDto> getPaymentHistoryByEmi(String email, Long emiId) {
 
         Emi emi = emiRepository.findById(emiId)
-                .orElseThrow(() -> new RuntimeException("EMI not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("EMI not found"));
 
         if (!emi.getLoan().getBorrower().getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Access denied: this EMI does not belong to you");
+            throw new AccessDeniedException("Access denied: this EMI does not belong to you");
         }
         List<Payment> payments = paymentRepository.findByEmiId(emiId);
 
         if(payments.isEmpty())
-            throw new RuntimeException("No Payment History available");
+            throw new ResourceNotFoundException("No Payment History available");
 
         return borrowerMapper.toPaymentHistoryDtoList(
                 payments
@@ -121,12 +126,12 @@ public class PaymentServiceImpl implements PaymentService {
     {
         Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new RuntimeException("Loan not found"));
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Access denied: this EMI does not belong to you");
+            throw new AccessDeniedException("Access denied: this EMI does not belong to you");
         }
         List<Payment> payments = paymentRepository.findByEmiLoanId(loanId);
 
         if(payments.isEmpty())
-            throw new RuntimeException("No Payment History available");
+            throw new ResourceNotFoundException("No Payment History available");
 
         return borrowerMapper.toPaymentHistoryDtoList(
                 payments

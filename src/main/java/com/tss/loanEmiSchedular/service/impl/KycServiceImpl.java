@@ -5,6 +5,8 @@ import com.tss.loanEmiSchedular.entity.Address;
 import com.tss.loanEmiSchedular.entity.BorrowerProfile;
 import com.tss.loanEmiSchedular.entity.FinancialProfile;
 import com.tss.loanEmiSchedular.entity.User;
+import com.tss.loanEmiSchedular.exception.BusinessException;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.repository.BorrowerRepository;
 import com.tss.loanEmiSchedular.repository.FinancialProfileRepository;
 import com.tss.loanEmiSchedular.repository.UserRepository;
@@ -12,6 +14,8 @@ import com.tss.loanEmiSchedular.service.KycService;
 import com.tss.loanEmiSchedular.util.PanHashUtil;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -36,15 +40,14 @@ public class KycServiceImpl implements KycService {
 
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (user.isKycVerified()) {
-            throw new RuntimeException("KYC already completed");
-        }
+            throw new BusinessException("KYC already completed", HttpStatus.CONFLICT);        }
 
         FinancialProfile fp = financialProfileRepository
                 .findByPanAndNameAndDob(hashedPan, kycRequestDto.getName(), kycRequestDto.getDob())
-                .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
+                .orElseThrow(() -> new BadCredentialsException("Invalid Credentials"));
 
         BorrowerProfile borrowerProfile=new BorrowerProfile();
         borrowerProfile.setPan(hashedPan);
