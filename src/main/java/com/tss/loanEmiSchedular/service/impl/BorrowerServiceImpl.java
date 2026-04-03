@@ -59,7 +59,6 @@ public class BorrowerServiceImpl implements BorrowerService {
 
     }
 
-    // ── 2. All EMIs for a loan ────────────────────────────────────────────────
     @Override
     public List<EmiResponseDto> getEmisForLoan(String email, Long loanId) {
         Loan loan = loanRepository.findById(loanId)

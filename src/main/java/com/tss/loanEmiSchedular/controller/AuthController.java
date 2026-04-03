@@ -2,6 +2,7 @@ package com.tss.loanEmiSchedular.controller;
 
 import com.tss.loanEmiSchedular.dto.request.SigninRequestDTO;
 import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
+import com.tss.loanEmiSchedular.dto.request.VerificationDto;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
 import com.tss.loanEmiSchedular.service.impl.AuthServiceImpl;
 import jakarta.validation.Valid;
@@ -25,8 +26,8 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> verify(@RequestParam String email, @RequestParam String otp) {
-        return ResponseEntity.status(HttpStatus.OK).body(authService.verifyOtp(email,otp));
+    public ResponseEntity<String> verify(@Valid @RequestBody VerificationDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(authService.verifyOtp(dto));
     }
 
     @PostMapping("/signin")

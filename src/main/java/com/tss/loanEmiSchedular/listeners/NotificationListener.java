@@ -2,6 +2,7 @@ package com.tss.loanEmiSchedular.listeners;
 
 import com.tss.loanEmiSchedular.entity.Emi;
 import com.tss.loanEmiSchedular.events.*;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class NotificationListener {
     public void handlePaymentReminder(PaymentReminderEvent event){
 
         Emi emi=emiRepository.findById(event.getEmiId())
-                        .orElseThrow(()->new RuntimeException("Emi not found"));
+                        .orElseThrow(()->new ResourceNotFoundException("Emi"));
 
         notificationService.sendPaymentReminder(
                 event.getEmail(),
@@ -50,7 +51,7 @@ public class NotificationListener {
     public void handleOverdue(EmiOverdueEvent event) {
 
         Emi emi=emiRepository.findById(event.getEmiId())
-                .orElseThrow(()->new RuntimeException("Emi not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Emi"));
 
         notificationService.sendOverdueAlert(
                 emi.getLoan().getBorrower().getUser().getEmail(),

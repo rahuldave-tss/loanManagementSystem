@@ -2,6 +2,7 @@ package com.tss.loanEmiSchedular.service.impl;
 
 import com.tss.loanEmiSchedular.dto.request.SigninRequestDTO;
 import com.tss.loanEmiSchedular.dto.request.SignupRequestDTO;
+import com.tss.loanEmiSchedular.dto.request.VerificationDto;
 import com.tss.loanEmiSchedular.dto.response.AuthResponseDTO;
 import com.tss.loanEmiSchedular.entity.User;
 import com.tss.loanEmiSchedular.enums.Role;
@@ -72,28 +73,28 @@ public class AuthServiceImpl implements AuthService {
         return new AuthResponseDTO("Login successful", token);
     }
 
-    public String verifyOtp(String email, String otp) {
+    public String verifyOtp(VerificationDto dto) {
 
-        if (!expiry.containsKey(email) || System.currentTimeMillis() > expiry.get(email)) {
-            remove(email);
+        if (!expiry.containsKey(dto.getEmail()) || System.currentTimeMillis() > expiry.get(dto.getEmail())) {
+            remove(dto.getEmail());
             return "OTP expired";
         }
 
-        if (!otpMap.get(email).equals(otp)) {
+        if (!otpMap.get(dto.getEmail()).equals(dto.getOtp())) {
             return "Invalid OTP";
         }
 
-        SignupRequestDTO dto = data.get(email);
+        SignupRequestDTO signUpdto = data.get(dto.getEmail());
 
         User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(dto.getRole());
+        user.setEmail(signUpdto.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpdto.getPassword()));
+        user.setRole(signUpdto.getRole());
         user.setEmailVerified(true);
 
         userRepository.save(user);
 
-        remove(email);
+        remove(dto.getEmail());
 
         return "User registered successfully";
     }
