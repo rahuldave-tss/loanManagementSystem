@@ -53,7 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if(!user.isEmailVerified())
             {
-                if(!path.startsWith("/auth/verify"))
+                if(!path.startsWith("/api/v1/auth/verify"))
                 {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().write("Verify Your email First");
@@ -62,11 +62,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             }
 
-            if (path.startsWith("/borrower") &&
+            if (path.startsWith("/api/v1/borrower") &&
                     user.getRole() == Role.BORROWER &&
                     !user.isKycVerified()) {
 
-                if (!path.startsWith("/borrower/kyc")) {
+                if (!path.startsWith("/api/v1/borrower/kyc")) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().write("KYC not completed! First Complete KYC");
                     return;
@@ -80,10 +80,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(email, null, authorities)
             );
 
-        } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            throw new BadCredentialsException("Token expired");
-        } catch (Exception e) {
-            throw new BadCredentialsException("Invalid Token");
+        }
+        catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid or expired token");
+            return;
         }
 
         filterChain.doFilter(request, response); // next()

@@ -50,7 +50,7 @@ public class LoanServiceImpl implements LoanService {
         log.info("Applying loan for user: {}", email);
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User"));
 
         System.out.println("user get");
 

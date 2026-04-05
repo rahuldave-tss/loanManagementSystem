@@ -15,22 +15,22 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final AuthServiceImpl authService;
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.signUp(dto));
     }
 
-    @PostMapping("/verify")
+    @PostMapping("/verify-otp")
     public ResponseEntity<String> verify(@Valid @RequestBody VerificationDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.verifyOtp(dto));
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody SigninRequestDTO dto) {
         return ResponseEntity.ok(authService.signIn(dto));
     }

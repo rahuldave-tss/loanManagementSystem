@@ -29,10 +29,10 @@ import java.util.List;
 @RestController
 @Validated
 @PreAuthorize("hasRole('BORROWER')")
-@RequestMapping("/borrower")
+@RequestMapping("/api/v1/borrower")
 public class BorrowerController {
     private final KycService kycService;
-    private final BorrowerService borrowerService; // add this alongside KycServiceImpl
+    private final BorrowerService borrowerService;
     private final PaymentService paymentService;
 
     @PostMapping("/kyc")

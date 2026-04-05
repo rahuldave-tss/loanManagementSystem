@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 
-@RequestMapping("/borrower/loans")
+@RequestMapping("/api/v1/borrower/loans")
 @RequiredArgsConstructor
 public class LoanController {
 

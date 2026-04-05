@@ -80,7 +80,7 @@ class LoanServiceImplTest {
                 loanService.applyLoan(new LoanApplicationRequest(), "test@mail.com")
         );
 
-        assertEquals("Complete KYC first ", ex.getMessage());
+        assertEquals("Complete KYC first", ex.getMessage());
     }
 
     @Test

@@ -59,7 +59,7 @@ class OfficerServiceImplTest {
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> officerService.viewPendingApplications());
 
-        assertEquals("No Pending Application Present", ex.getMessage());
+        assertEquals("No Pending Application Present not found", ex.getMessage());
     }
 
     @Test

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/officer")
+@RequestMapping("/api/v1/officer")
 @PreAuthorize("hasRole('LOAN_OFFICER')")
 @RequiredArgsConstructor
 public class OfficerController {

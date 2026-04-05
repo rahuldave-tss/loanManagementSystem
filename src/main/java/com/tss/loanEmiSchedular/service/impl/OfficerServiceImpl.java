@@ -61,7 +61,9 @@ public class OfficerServiceImpl implements OfficerService {
     @Transactional
     public String decideLoan(Long loanId, LoanDecisionRequestDto loanDecisionRequestDto, String officerMail) {
         Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Loan"));
+
+        System.out.println("loan mil gayi");
 
         System.out.println(loan);
         if (loan.getStatus() != LoanStatus.PENDING) {
@@ -70,8 +72,9 @@ public class OfficerServiceImpl implements OfficerService {
 
 
         User officer = userRepository.findByEmail(officerMail)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User"));
 
+        System.out.println("user mil gaya");
         System.out.println(loan.getStatus());
 
         if (loanDecisionRequestDto.getDecision() == LoanStatus.REJECTED) {
