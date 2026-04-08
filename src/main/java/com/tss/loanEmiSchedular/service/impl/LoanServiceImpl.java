@@ -124,7 +124,7 @@ public class LoanServiceImpl implements LoanService {
             log.info("Final dti of user is >40 , So Loan Rejected");
             loan.setDti(finalDti);
             loanRepository.save(loan);
-            return "Loan Rejected Due to High DTI";
+            return "Loan Rejected Due to High DTI, You will not be able to pay current EMI of loan";
         }
 
         loanRepository.save(loan);

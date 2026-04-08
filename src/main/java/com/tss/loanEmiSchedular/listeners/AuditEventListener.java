@@ -5,6 +5,7 @@ import com.tss.loanEmiSchedular.enums.ActorType;
 import com.tss.loanEmiSchedular.enums.AuditAction;
 import com.tss.loanEmiSchedular.enums.LoanStatus;
 import com.tss.loanEmiSchedular.events.*;
+import com.tss.loanEmiSchedular.exception.ResourceNotFoundException;
 import com.tss.loanEmiSchedular.repository.EmiRepository;
 import com.tss.loanEmiSchedular.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ public class AuditEventListener {
     public void handleReminder(PaymentReminderEvent event){
 
         Emi emi=emiRepository.findById(event.getEmiId())
-                .orElseThrow(()->new RuntimeException("Emi not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Emi"));
 
         auditLogService.logEmiAction(
                 emi.getLoan(),
@@ -77,7 +78,7 @@ public class AuditEventListener {
     public void handleOverdue(EmiOverdueEvent event){
 
         Emi emi=emiRepository.findById(event.getEmiId())
-                .orElseThrow(()->new RuntimeException("Emi not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Emi"));
 
         auditLogService.logEmiAction(
                 emi.getLoan(),

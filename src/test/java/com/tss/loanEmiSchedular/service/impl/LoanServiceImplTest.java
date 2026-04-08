@@ -153,7 +153,7 @@ class LoanServiceImplTest {
         String result = loanService.applyLoan(request, "test@mail.com");
 
         // Assert
-        assertEquals("Loan Rejected Due to High DTI", result);
+        assertEquals("Loan Rejected Due to High DTI, You will not be able to pay current EMI of loan", result);
     }
     @Test
     void shouldApplyLoanSuccessfully() {
