@@ -124,9 +124,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentHistoryResponseDto> getPaymentHistory(String email, Long loanId)
     {
-        Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new RuntimeException("Loan not found"));
+        Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new ResourceNotFoundException("Loan"));
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
-            throw new AccessDeniedException("Access denied: this EMI does not belong to you");
+            throw new AccessDeniedException("Access denied: this Loan does not belong to you");
         }
         List<Payment> payments = paymentRepository.findByEmiLoanId(loanId);
 

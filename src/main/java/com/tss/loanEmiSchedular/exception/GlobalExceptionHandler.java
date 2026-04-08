@@ -7,6 +7,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -85,6 +87,33 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST,
+                request,
+                null
+        );
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(
+            NoResourceFoundException ex,
+            HttpServletRequest request) {
+
+        return buildErrorResponse(
+                "API endpoint not found",
+                HttpStatus.NOT_FOUND,
+                request,
+                null
+        );
+    }
+
+    @ExceptionHandler(org.springframework.security.authorization.AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAuthorizationDenied(
+            org.springframework.security.authorization.AuthorizationDeniedException ex,
+            HttpServletRequest request) {
+
+        System.out.println("here");
+        return buildErrorResponse(
+                "You do not have permission to perform this action",
+                HttpStatus.FORBIDDEN,
                 request,
                 null
         );

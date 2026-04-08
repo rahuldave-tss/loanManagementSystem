@@ -61,7 +61,7 @@ public class BorrowerServiceImpl implements BorrowerService {
     @Override
     public List<EmiResponseDto> getEmisForLoan(String email, Long loanId) {
         Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Loan"));
 
         if (!loan.getBorrower().getUser().getEmail().equals(email)) {
             throw new AccessDeniedException("Access denied: this loan does not belong to you");
