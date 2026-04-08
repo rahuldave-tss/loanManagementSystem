@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import static com.tss.loanEmiSchedular.util.AppConstants.PAYMENT_REMINDER_DAYS;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -98,7 +100,7 @@ public class EmiServiceImpl implements EmiService {
     public void sendPaymentReminder() {
 
         LocalDate today = LocalDate.now();
-        LocalDate endDate = today.plusDays(3);
+        LocalDate endDate = today.plusDays(PAYMENT_REMINDER_DAYS);
 
         List<Emi> emis = emiRepository.findUpcomingEmis(today, endDate);
 

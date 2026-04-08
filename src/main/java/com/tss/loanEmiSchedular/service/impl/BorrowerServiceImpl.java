@@ -39,7 +39,6 @@ public class BorrowerServiceImpl implements BorrowerService {
     {
         List<Loan> loan = loanRepository.findByBorrowerUserEmailAndIsDeletedFalse(email);
 
-
         if(loan.isEmpty())
         {
             throw new ResourceNotFoundException("No ACTIVE OR PENDING Loans Present");

@@ -13,6 +13,7 @@ import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.service.AuthService;
 import com.tss.loanEmiSchedular.util.JwtUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -56,6 +58,8 @@ public class AuthServiceImpl implements AuthService {
         // send email via event
         applicationEventPublisher.publishEvent(new SignupEvent(dto.getEmail(), otp));
 
+        log.info("Otp sent to user for verification: "+dto.getEmail());
+
         return "OTP sent to your email";
     }
 
@@ -69,6 +73,8 @@ public class AuthServiceImpl implements AuthService {
             throw new BadCredentialsException("Invalid credentials");
         }
         String token = jwtUtil.generateToken(user.getEmail());
+
+        log.info("User Logged in: "+user.getEmail());
 
         return new AuthResponseDTO("Login successful", token);
     }
@@ -95,6 +101,8 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         remove(dto.getEmail());
+
+        log.info("User Registered : "+user.getEmail());
 
         return "User registered successfully";
     }

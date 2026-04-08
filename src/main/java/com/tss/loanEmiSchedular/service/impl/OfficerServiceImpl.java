@@ -17,6 +17,7 @@ import com.tss.loanEmiSchedular.repository.UserRepository;
 import com.tss.loanEmiSchedular.service.FinancialService;
 import com.tss.loanEmiSchedular.service.OfficerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OfficerServiceImpl implements OfficerService {
@@ -63,7 +65,7 @@ public class OfficerServiceImpl implements OfficerService {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new ResourceNotFoundException("Loan"));
 
-        System.out.println("loan mil gayi");
+//        System.out.println("loan mil gayi");
 
         System.out.println(loan);
         if (loan.getStatus() != LoanStatus.PENDING) {
@@ -74,8 +76,8 @@ public class OfficerServiceImpl implements OfficerService {
         User officer = userRepository.findByEmail(officerMail)
                 .orElseThrow(() -> new ResourceNotFoundException("User"));
 
-        System.out.println("user mil gaya");
-        System.out.println(loan.getStatus());
+//        System.out.println("user mil gaya");
+//        System.out.println(loan.getStatus());
 
         if (loanDecisionRequestDto.getDecision() == LoanStatus.REJECTED) {
             loan.setStatus(LoanStatus.REJECTED);
@@ -83,10 +85,12 @@ public class OfficerServiceImpl implements OfficerService {
             applicationEventPublisher.publishEvent(new LoanDecisionEvent(loan,
                     loan.getBorrower().getUser().getEmail(),
                     officer));
+
+            log.info("Loan {} rejected by officer",loan.getId());
             return "Loan Rejected";
         }
 
-        System.out.println("loan not rejected");
+//        System.out.println("loan not rejected");
 
         if (loanDecisionRequestDto.getDecision() == LoanStatus.APPROVED) {
 
@@ -103,9 +107,10 @@ public class OfficerServiceImpl implements OfficerService {
 
             loanRepository.save(loan);
 
-            System.out.println("loan saved");
+//            System.out.println("loan saved");
 
             emiService.generateSchedule(loan);
+            log.info("Loan {} approved by officer and EMI schedule generated",loan.getId());
 
             financialService.addFirstEmiToExistingDebt(emiService.calculateBaseEmi(loan), loan.getBorrower().getUser());
 

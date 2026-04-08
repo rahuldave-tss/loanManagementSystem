@@ -1,7 +1,9 @@
 package com.tss.loanEmiSchedular.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +13,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(
+            String message,
+            HttpStatus status,
+            HttpServletRequest request,
+            Map<String, String> errors
+    ) {
+        ErrorResponse error = new ErrorResponse();
+        error.setMessage(message);
+        error.setStatus(status.value());
+        error.setPath(request.getRequestURI());
+        error.setTimestamp(LocalDateTime.now());
+        error.setErrors(errors);
+
+        return ResponseEntity.status(status).body(error);
+    }
 
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ErrorResponse> handleException(ApplicationException applicationException, HttpServletRequest httpServletRequest){
-        ErrorResponse errorResponse=new ErrorResponse();
-        errorResponse.setMessage(applicationException.getMessage());
-        errorResponse.setTimestamp(LocalDateTime.now());
-        errorResponse.setPath(httpServletRequest.getRequestURI());
-        errorResponse.setStatus(applicationException.getStatus().value());
-
-        return ResponseEntity.status(applicationException.getStatus().value()).body(errorResponse);
+        log.error("Application Exception: "+applicationException);
+        return buildErrorResponse(
+                applicationException.getMessage(),
+                applicationException.getStatus(),
+                httpServletRequest,
+                null
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -35,14 +54,14 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setMessage("Validation failed");
-        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-        errorResponse.setPath(request.getRequestURI());
-        errorResponse.setTimestamp(LocalDateTime.now());
-        errorResponse.setErrors(errors);
+        log.error("Method Argument Exception: "+ex);
 
-        return ResponseEntity.badRequest().body(errorResponse);
+        return buildErrorResponse(
+                "Validation failed",
+                HttpStatus.BAD_REQUEST,
+                request,
+                errors
+        );
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -50,27 +69,39 @@ public class GlobalExceptionHandler {
             BadCredentialsException ex,
             HttpServletRequest request) {
 
-        ErrorResponse error = new ErrorResponse();
-        error.setMessage(ex.getMessage());
-        error.setTimestamp(LocalDateTime.now());
-        error.setPath(request.getRequestURI());
-        error.setStatus(HttpStatus.UNAUTHORIZED.value());
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        log.error("Bad Credentials Exception: "+ex);
+        return buildErrorResponse(
+                ex.getMessage(),
+                HttpStatus.UNAUTHORIZED,
+                request,
+                null
+        );
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleGenericException(
-//            Exception ex,
-//            HttpServletRequest request) {
-//
-//        ErrorResponse error = new ErrorResponse();
-//        error.setMessage("Something went wrong");
-//        error.setTimestamp(LocalDateTime.now());
-//        error.setPath(request.getRequestURI());
-//        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-//    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidEnum(HttpMessageNotReadableException ex,
+                                                           HttpServletRequest request) {
+        log.error("Json parse Exception: "+ex);
+        return buildErrorResponse(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                request,
+                null
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(
+            Exception ex,
+            HttpServletRequest request) {
+
+        log.error("Generic Exception: "+ex);
+        return buildErrorResponse(
+                "Something went wrong",
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request,
+                null
+        );
+    }
 
 }

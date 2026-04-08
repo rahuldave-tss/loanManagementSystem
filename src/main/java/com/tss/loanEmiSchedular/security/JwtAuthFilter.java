@@ -44,48 +44,47 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } else {
             token = header; // accept raw token
         }
-        try {
-            String email = jwtUtil.extractEmail(token);
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new BadCredentialsException("User not found"));
-
-            String path = request.getRequestURI();
-
-            if(!user.isEmailVerified())
-            {
-                if(!path.startsWith("/api/v1/auth/verify"))
-                {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.getWriter().write("Verify Your email First");
-                    return;
-                }
-
-            }
-
-            if (path.startsWith("/api/v1/borrower") &&
-                    user.getRole() == Role.BORROWER &&
-                    !user.isKycVerified()) {
-
-                if (!path.startsWith("/api/v1/borrower/kyc")) {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.getWriter().write("KYC not completed! First Complete KYC");
-                    return;
-                }
-            }
-
-            List<GrantedAuthority> authorities = List.of(
-                    new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
-
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(email, null, authorities)
-            );
-
+        String email;
+        try{
+            email = jwtUtil.extractEmail(token);
         }
-        catch (Exception e) {
+        catch (Exception e){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid or expired token");
             return;
         }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
+
+        String path = request.getRequestURI();
+
+        if(!user.isEmailVerified())
+        {
+            if(!path.startsWith("/api/v1/auth/verify"))
+            {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Verify Your email First");
+                return;
+            }
+        }
+
+        if (path.startsWith("/api/v1/borrower") &&
+                user.getRole() == Role.BORROWER &&
+                !user.isKycVerified()) {
+
+            if (!path.startsWith("/api/v1/borrower/kyc")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("KYC not completed! First Complete KYC");
+                return;
+            }
+        }
+
+        List<GrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(email, null, authorities)
+        );
 
         filterChain.doFilter(request, response); // next()
     }

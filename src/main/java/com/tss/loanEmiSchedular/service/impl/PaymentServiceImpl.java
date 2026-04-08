@@ -35,7 +35,7 @@ import java.util.UUID;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    private final LoanRepository loanRepository; // add this
+    private final LoanRepository loanRepository;
     private final EmiRepository emiRepository;
     private final PaymentRepository paymentRepository;
     private final BorrowerMapper borrowerMapper;

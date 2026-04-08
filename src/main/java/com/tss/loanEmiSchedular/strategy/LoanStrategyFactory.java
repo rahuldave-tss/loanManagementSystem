@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static com.tss.loanEmiSchedular.util.AppConstants.HIGH_DTI_THRESHOLD;
+import static com.tss.loanEmiSchedular.util.AppConstants.LOW_DTI_THRESHOLD;
+
 @Service
 @RequiredArgsConstructor
 public class LoanStrategyFactory {
@@ -18,9 +21,9 @@ public class LoanStrategyFactory {
 
     public LoanStrategy getStrategy(BigDecimal dti) {
 
-        if (dti.compareTo(BigDecimal.valueOf(20)) < 0) {
+        if (dti.compareTo(BigDecimal.valueOf(LOW_DTI_THRESHOLD)) < 0) {
             return lowRiskStrategy;
-        } else if (dti.compareTo(BigDecimal.valueOf(40)) <= 0) {
+        } else if (dti.compareTo(BigDecimal.valueOf(HIGH_DTI_THRESHOLD)) <= 0) {
             return midRiskStrategy;
         } else {
             return highRiskStrategy;
